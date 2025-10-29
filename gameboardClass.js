@@ -24,8 +24,12 @@ export class Gameboard {
         this.grid.forEach((square) => {
             if (square.x === x && square.y === y) {
                 square.hit = true;
+                if (square.occupied === true) {
+                    //search for ship by searching ship.gridCoords then send hit function to ship and check for sunk status.
+                }
             }
         })
+
     }
 
 
