@@ -18,9 +18,10 @@ export class Gameboard {
     constructor() {
         //grid of objects - occupied, hit, x, y
         this.grid = createGrid();
-        this.ships = null;
+        this.ships = [];
     }
-    receiveAttack(x, y) {
+
+    receiveAttack(y, x) {
 
         this.grid.forEach((square) => {
             if (square.x === x && square.y === y) {
@@ -30,10 +31,13 @@ export class Gameboard {
 
                     //search for ship by searching ship.gridCoords then send hit function to ship and check for sunk status.
                     this.ships.forEach((ship) => {
+
                         ship.occupiedGrid.forEach((squareOccupied) => {
+
                             if (squareOccupied[0] === y && squareOccupied[1] === x) {
                                 ship.hit()
-                                //if ship sunk remove from gameboard array - might be better to use array method.
+
+                                //if ship sunk remove from gameboard array - might be better to use array method to remove.
                                 if (ship.sunk === true) {
                                     ship = "";
                                 }
@@ -50,7 +54,27 @@ export class Gameboard {
     placeShip(length, direction, coords) {
         // call new ship object and add it to this.ships
         this.ships.push(new Ship (length, direction, coords))
-    }
+        let gridPosition;
+        if (direction === "vertical") {
+            for (let y = coords[0]; y < length + coords[0]; y++) {
+                if (y + length >= 10) {
+                    return "Ship out of bounds, ships will always face north when set vertically.";
+                }
+                gridPosition = this.grid.indexOf({"hit": false,"occupied": false,"x": coords[1],"y": y,})
+                this.grid[gridPosition].occupied = true;
+            }
+        }
+        else if (direction === "horizontal") {
+            for (let x = coords[1]; x < length + coords[1]; x++) {
+                if (x + length >= 10) {
+                    return "Ship out of bounds, ships will always face right when set horizontally.";
+                }
+                gridPosition = this.grid.indexOf({"hit": false,"occupied": false,"x": x,"y": coords[1],})
+                this.grid[gridPosition].occupied = true;
+            }
+        }
+    };
+
 
 
 }
