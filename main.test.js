@@ -24,8 +24,6 @@ describe('creating new gameboard', () => {
     test('when ship is placed shows up correctly in gameboard.ships array', () => {
         expect(gameboard.ships).toMatchObject([{"direction": "horizontal", "hits": 0, "length": 2, "occupiedGrid": [[5, 5], [5, 6]], "sunk": false}]);
     });
-
-    
 });
 
 describe('creating new gameboard', () => {
@@ -41,4 +39,31 @@ describe('creating new gameboard', () => {
         expect(gameboard.grid[44]).toMatchObject({"hit": true,"occupied": true,"x": 4,"y": 4,})
     });
 
+
+});
+
+describe('creating new gameboard', () => {
+    let gameboard;
+
+    beforeEach(() => {
+        gameboard = new Gameboard();
+        gameboard.placeShip(2, "horizontal", [5, 5],);
+        gameboard.receiveAttack(4, 4);
+        gameboard.receiveAttack(5, 5);
+    });
+
+    test('when attack is received by gameboard non-occupied grid records hit correctly', () => {
+        expect(gameboard.ships.length).toBe(1);
+    });
+
+    test('when attack is received by gameboard occupied grid records hit correctly', () => {
+        expect(gameboard.grid[44]).toMatchObject({"hit": true,"occupied": false,"x": 4,"y": 4,});
+    });
+
+    test('when attack is received by gameboard ship records hit correctly', () => {
+        expect(gameboard.ships).toMatchObject([{"direction": "horizontal", "hits": 1, "length": 2, "occupiedGrid": [[5, 5], [5, 6]], "sunk": false}]);
+        expect(gameboard.grid[55]).toMatchObject({"hit": true,"occupied": true,"x": 5,"y": 5,});
+    });
+
+    
 });
