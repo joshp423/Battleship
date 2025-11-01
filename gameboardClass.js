@@ -60,7 +60,7 @@ export class Gameboard {
                 if (y + length >= 10) {
                     return "Ship out of bounds, ships will always face north when set vertically.";
                 }
-                gridPosition = this.grid.indexOf({"hit": false,"occupied": false,"x": coords[1],"y": y,})
+                gridPosition = this.grid.findIndex(cell => cell.x === coords[1] && cell.y === y)
                 this.grid[gridPosition].occupied = true;
             }
         }
@@ -69,7 +69,7 @@ export class Gameboard {
                 if (x + length >= 10) {
                     return "Ship out of bounds, ships will always face right when set horizontally.";
                 }
-                gridPosition = this.grid.indexOf({"hit": false,"occupied": false,"x": x,"y": coords[1],})
+                gridPosition = this.grid.findIndex(cell => cell.x === x && cell.y === coords[0])
                 this.grid[gridPosition].occupied = true;
             }
         }

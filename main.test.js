@@ -22,7 +22,7 @@ describe('creating new gameboard', () => {
     });
 
     test('when ship is placed shows up correctly in gameboard.ships array', () => {
-        expect(gameboard.ships).toMatchObject([{"direction": "horizontal", "hits": 0, "length": 2, "occupiedGrid": [[5, 5], [6, 5]], "sunk": false}]);
+        expect(gameboard.ships).toMatchObject([{"direction": "horizontal", "hits": 0, "length": 2, "occupiedGrid": [[5, 5], [5, 6]], "sunk": false}]);
     });
 
     
