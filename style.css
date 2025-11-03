@@ -8,7 +8,8 @@ body {
 
 #opponentBoard {
     border-bottom: 2px solid black;
-    
+    display: flex;
+    flex-direction: column;
 }
 
 .opponentGameBoardDivs {
