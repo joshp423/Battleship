@@ -4,10 +4,26 @@ body {
 
 .header {
     border-bottom: 2px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.opponentContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#opponentHeader {
+    display: flex;
+    justify-content: center;
 }
 
 .opponentBoard {
-    border-bottom: 2px solid black;
+    border-bottom: 2px dotted black;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -24,7 +40,7 @@ body {
     display: grid;
     grid-template: repeat(10, 1fr) / repeat(10, 1fr);
     border: 1px solid black;
-    margin: 50px;
+    margin: 30px;
     height: 250px;
     width: 250px;
     gap: 0;
@@ -33,6 +49,24 @@ body {
 #opponentShipTable {
     border: 2px solid black;
     margin-top: 50px;
+}
+
+#playerContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#playerHeader {
+    display: flex;
+    justify-content: center;
+}
+
+.playerBoard {
+    border-bottom: 2px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 #playerGameBoard {
@@ -45,13 +79,6 @@ body {
     gap: 0;
 }
 
-.playerBoard {
-    border-bottom: 2px solid black;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-
 .playerGameBoardDivs {
     height: 100%;
     width: 100%;
@@ -60,6 +87,12 @@ body {
 
 #playerShipTable {
     border: 2px solid black;
+    margin-top: 50px;
+}
+
+#playerShipPlacement {
+    display: flex;
+    flex-direction: column;
     margin-top: 50px;
 }
 
