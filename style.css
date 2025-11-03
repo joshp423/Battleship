@@ -6,10 +6,12 @@ body {
     border-bottom: 2px solid black;
 }
 
-#opponentBoard {
+.opponentBoard {
     border-bottom: 2px solid black;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
+
 }
 
 .opponentGameBoardDivs {
@@ -23,15 +25,49 @@ body {
     grid-template: repeat(10, 1fr) / repeat(10, 1fr);
     border: 1px solid black;
     margin: 50px;
-    height: 200px;
-    width: 200px;
+    height: 250px;
+    width: 250px;
     gap: 0;
 }
 
 #opponentShipTable {
     border: 2px solid black;
+    margin-top: 50px;
+}
+
+#playerGameBoard {
+    display: grid;
+    grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+    border: 1px solid black;
+    margin: 50px;
+    height: 300px;
+    width: 300px;
+    gap: 0;
+}
+
+.playerBoard {
+    border-bottom: 2px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.playerGameBoardDivs {
+    height: 100%;
+    width: 100%;
+    border: 1px solid black;
 }
 
 #playerShipTable {
     border: 2px solid black;
+    margin-top: 50px;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px
 }
