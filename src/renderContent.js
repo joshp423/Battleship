@@ -1,4 +1,4 @@
-import { placeShipEvents } from "./placeShipButtonEvents";
+import { placeShipEvents } from "./placeShipEvents";
 
 class ContentRender {
     constructor(){}
