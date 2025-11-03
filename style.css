@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+}
+
+.header {
+    border-bottom: 2px solid black;
+}
+
+#opponentBoard {
+    border-bottom: 2px solid black;
+    
+}
+
+.opponentGameBoardDivs {
+    height: 100%;
+    width: 100%;
+    border: 1px solid black;
+}
+
+#opponentGameBoard {
+    display: grid;
+    grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+    border: 1px solid black;
+    margin: 50px;
+    height: 200px;
+    width: 200px;
+    gap: 0;
+}
+
+#opponentShipTable {
+    border: 2px solid black;
+}
+
+#playerShipTable {
+    border: 2px solid black;
+}
