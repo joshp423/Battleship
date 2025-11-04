@@ -58,7 +58,7 @@ export class Gameboard {
         if (direction === "vertical") {
             for (let y = coords[0]; y < length + coords[0]; y++) {
                 if (y + length >= 10) {
-                    return "Ship out of bounds, ships will always face north when set vertically.";
+                    return "Ship out of bounds, ships will always face downwards when set vertically.";
                 }
                 gridPosition = this.grid.findIndex(cell => cell.x === coords[1] && cell.y === y)
                 this.grid[gridPosition].occupied = true;

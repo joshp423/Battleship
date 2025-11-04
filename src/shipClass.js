@@ -4,7 +4,7 @@ export function occupiedGrid(coords, length, direction) {
     if (direction === "vertical") {
         for (let y = coords[0]; y < length + coords[0]; y++) {
             if (y + length >= 10) {
-                return "Ship out of bounds, ships will always face north when set vertically.";
+                return "Ship out of bounds, ships will always face down when set vertically.";
             }
             grid.push([y, coords[1]]);
         }

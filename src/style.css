@@ -63,7 +63,7 @@ body {
     flex-direction: column;
 }
 
-.playerBoard {
+#playerBoard {
     border-bottom: 2px solid black;
     display: flex;
     flex-direction: row;

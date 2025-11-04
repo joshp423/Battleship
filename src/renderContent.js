@@ -13,6 +13,7 @@ class ContentRender {
         const playerContainerHeader = document.getElementById('playerHeader');
         const PlayerInstruction = document.createElement('h3');
         PlayerInstruction.innerText = "Click to place Carrier";
+        PlayerInstruction.id = "playerInstruction";
         const playerGameBoard = document.getElementById('playerGameBoard');
         playerContainerHeader.append(PlayerInstruction);
         let i = 0; 
@@ -30,8 +31,40 @@ class ContentRender {
         }
         ShipEvents.keydownEventSetup();
         ShipEvents.placeCarrierEvents();
+        
     }
-    renderPlaceRemaining
+
+    renderPlaceRemaining(shipsArray, currentShip){
+        const playerContainerHeader = document.getElementById('playerHeader');
+        const PlayerInstruction = document.getElementById('playerInstruction');
+        PlayerInstruction.innerText = `Click to place ${currentShip}`;
+        const playerGameBoard = document.getElementById('playerGameBoard');
+
+        let protectedSquares;
+        let i = 0;
+
+        while (i < 10) {
+            let j = 0;
+            while (j < 10) {
+                const square = document.createElement('div');
+                square.classList.add('playerGameBoardDivs');
+                square.id = [i, j];
+                playerGameBoard.append(square);
+                shipsArray.forEach((ship) => {
+                    ship.occupiedGrid.forEach((square) => {
+                        if (square[0] === i && square[1] === j) {
+                            square.style.backgroundColor = "grey";
+                            protectedSquares.push(square)
+                        }
+                    })
+                })
+                j++;
+            }
+            i++;
+        };
+        console.log(protectedSquares);
+
+    }
 }
 
 export const renderContent = (() => {

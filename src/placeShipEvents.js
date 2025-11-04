@@ -1,4 +1,5 @@
 import { Player } from "./playerClass";
+import { renderContent } from "./renderContent";
 
  class PlaceShipEvents {
     constructor () {
@@ -81,8 +82,16 @@ import { Player } from "./playerClass";
 
             playerGameBoardDivs[i].addEventListener('click', () => {
                 //once first ship is placed, create new player and therefore gameboard
-                const playerHuman = new Player("player") 
+                const playerHuman = new Player("player");
+                const squareArray = playerGameBoardDivs[i].id.split(",");
+                console.log(squareArray);
+
                 playerHuman.gameBoard.placeShip(4, this.shipDirection, Array.from(playerGameBoardDivs[i].id))
+                console.log(playerHuman.gameBoard.ships);
+                let playerBoard = document.getElementById("playerGameBoard");
+                playerBoard.innerHTML = "";
+                
+                renderContent.renderPlaceRemaining(playerHuman.gameBoard.ships, "Battleship");
             })
         }
     }
