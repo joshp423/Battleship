@@ -1,5 +1,4 @@
-import { ShipEvents } from "./placeShipEvents";
-
+import { placeShip } from "./main";
 class ContentRender {
     constructor(){}
 
@@ -29,18 +28,18 @@ class ContentRender {
             }
             i++;
         }
-        ShipEvents.keydownEventSetup();
-        ShipEvents.placeCarrierEvents();
+        placeShip.keydownEventSetup();
+        placeShip.placeCarrierEvents();
         
     }
 
     renderPlaceRemaining(shipsArray, currentShip){
-        const playerContainerHeader = document.getElementById('playerHeader');
         const PlayerInstruction = document.getElementById('playerInstruction');
         PlayerInstruction.innerText = `Click to place ${currentShip}`;
         const playerGameBoard = document.getElementById('playerGameBoard');
+        playerGameBoard.innerHTML = "";
 
-        let protectedSquares;
+        let protectedSquares = [];
         let i = 0;
 
         while (i < 10) {
@@ -51,10 +50,10 @@ class ContentRender {
                 square.id = [i, j];
                 playerGameBoard.append(square);
                 shipsArray.forEach((ship) => {
-                    ship.occupiedGrid.forEach((square) => {
-                        if (square[0] === i && square[1] === j) {
+                    ship.occupiedGrid.forEach((grid) => {
+                        if (grid[0] === i && grid[1] === j) {
                             square.style.backgroundColor = "grey";
-                            protectedSquares.push(square)
+                            protectedSquares.push(grid)
                         }
                     })
                 })
@@ -63,7 +62,8 @@ class ContentRender {
             i++;
         };
         console.log(protectedSquares);
-
+        placeShip.keydownEventSetup();
+        placeShip.placeRemainingEvents(placeShip.activeShip);
     }
 }
 
