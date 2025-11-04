@@ -13,6 +13,6 @@ startResetButton.addEventListener('click', () => {
     if (gameStatus = "notStarted") {
         gameStatus = "startedPlacement";
         startResetButton.innerText = "Reset Game";
-        renderContent.renderPlaceShips();
+        renderContent.renderPlaceCarrier();
     }
 })
