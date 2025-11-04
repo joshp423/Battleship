@@ -55,7 +55,7 @@ export class Gameboard {
         // call new ship object and add it to this.ships
         this.ships.push(new Ship (length, direction, coords))
         let gridPosition;
-        if (direction === "vertical") {
+        if (direction === "Vertical") {
             for (let y = coords[0]; y < length + coords[0]; y++) {
                 if (y + length >= 10) {
                     return "Ship out of bounds, ships will always face downwards when set vertically.";
@@ -64,7 +64,7 @@ export class Gameboard {
                 this.grid[gridPosition].occupied = true;
             }
         }
-        else if (direction === "horizontal") {
+        else if (direction === "Horizontal") {
             for (let x = coords[1]; x < length + coords[1]; x++) {
                 if (x + length >= 10) {
                     return "Ship out of bounds, ships will always face right when set horizontally.";

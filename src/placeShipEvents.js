@@ -83,14 +83,15 @@ import { renderContent } from "./renderContent";
             playerGameBoardDivs[i].addEventListener('click', () => {
                 //once first ship is placed, create new player and therefore gameboard
                 const playerHuman = new Player("player");
-                const squareArray = playerGameBoardDivs[i].id.split(",");
+                let squareArray = playerGameBoardDivs[i].id.split(",");
+                squareArray = squareArray.map(Number);
                 console.log(squareArray);
 
-                playerHuman.gameBoard.placeShip(4, this.shipDirection, Array.from(playerGameBoardDivs[i].id))
+                playerHuman.gameBoard.placeShip(4, this.shipDirection, squareArray)
                 console.log(playerHuman.gameBoard.ships);
                 let playerBoard = document.getElementById("playerGameBoard");
                 playerBoard.innerHTML = "";
-                
+
                 renderContent.renderPlaceRemaining(playerHuman.gameBoard.ships, "Battleship");
             })
         }

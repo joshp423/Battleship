@@ -1,7 +1,7 @@
 
 export function occupiedGrid(coords, length, direction) {
     let grid = [];
-    if (direction === "vertical") {
+    if (direction === "Vertical") {
         for (let y = coords[0]; y < length + coords[0]; y++) {
             if (y + length >= 10) {
                 return "Ship out of bounds, ships will always face down when set vertically.";
@@ -9,7 +9,7 @@ export function occupiedGrid(coords, length, direction) {
             grid.push([y, coords[1]]);
         }
     }
-    else if (direction === "horizontal") {
+    else if (direction === "Horizontal") {
         for (let x = coords[0]; x < length + coords[1]; x++) {
             if (x + length >= 10) {
                 return "Ship out of bounds, ships will always face right when set horizontally.";
