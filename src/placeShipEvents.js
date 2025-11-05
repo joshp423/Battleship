@@ -137,7 +137,7 @@ export class ShipEvents {
                         //update class to hold info
                         this.player = playerHuman;
                         this.activeShip = "Battleship"
-                        renderContent.renderPlaceRemaining(playerHuman.gameBoard.ships, "Battleship");
+                        renderContent.renderPlaceRemaining(this.player.gameBoard.ships, "Battleship");
                         console.log(this.activeShip, this.player)
                     }
                 }
@@ -163,6 +163,8 @@ export class ShipEvents {
                 this.player.gameBoard.ships.forEach((ship) => {
                     ship.occupiedGrid.forEach((grid) => {
                         if (grid[0] === squareArray[0] && grid[1] === squareArray[1]) {
+                            console.log(grid, squareArray)
+                            playerGameBoardDivs[i].style.backgroundColor = "grey"
                             return;
                         }
                     })
@@ -205,7 +207,7 @@ export class ShipEvents {
                 this.player.gameBoard.ships.forEach((ship) => {
                     ship.occupiedGrid.forEach((grid) => {
                         if (grid[0] === squareArray[0] && grid[1] === squareArray[1]) {
-                            return;
+                            playerGameBoardDivs[i].style.backgroundColor = "grey"
                         }
                     })
                 })
