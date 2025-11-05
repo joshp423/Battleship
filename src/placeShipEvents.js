@@ -17,30 +17,12 @@ export class ShipEvents {
                 if (this.shipDirection === "Vertical") {
                     this.shipDirection = "Horizontal";
                     for (let i = 0; i < playerGameBoardDivs.length; i++) {
-                        let squareArray = playerGameBoardDivs[i].id.split(",");
-                        squareArray = squareArray.map(Number);
-                        this.player.gameBoard.ships.forEach((ship) => {
-                            ship.occupiedGrid.forEach((grid) => {
-                                if (grid[0] === squareArray[0] && grid[1] === squareArray[1]) {
-                                   return;
-                                }
-                            })
-                        })
                         playerGameBoardDivs[i].style.backgroundColor = "white";   
                     }
                 }
                 else {
                     this.shipDirection = "Vertical";
                     for (let i = 0; i < playerGameBoardDivs.length; i++) {
-                        let squareArray = playerGameBoardDivs[i].id.split(",");
-                        squareArray = squareArray.map(Number);
-                        this.player.gameBoard.ships.forEach((ship) => {
-                            ship.occupiedGrid.forEach((grid) => {
-                                if (grid[0] === squareArray[0] && grid[1] === squareArray[1]) {
-                                   return;
-                                }
-                            })
-                        })
                         playerGameBoardDivs[i].style.backgroundColor = "white";   
                     }
                 }
@@ -71,7 +53,7 @@ export class ShipEvents {
                     }
                 }
                 else {
-                    if (playerGameBoardDivs[i + 4] && i + 5 <= rowEnd){
+                    if (playerGameBoardDivs[i + 4] && i + 4 <= rowEnd){
                         playerGameBoardDivs[i].style.backgroundColor = "black";
                         playerGameBoardDivs[i + 1].style.backgroundColor = "black";
                         playerGameBoardDivs[i + 2].style.backgroundColor = "black";
@@ -92,7 +74,7 @@ export class ShipEvents {
                     }
                 }
                 else {
-                    if (playerGameBoardDivs[i + 4] && i + 5 <= rowEnd){
+                    if (playerGameBoardDivs[i + 4] && i + 4 <= rowEnd){
                         playerGameBoardDivs[i].style.backgroundColor = "white";
                         playerGameBoardDivs[i + 1].style.backgroundColor = "white";
                         playerGameBoardDivs[i + 2].style.backgroundColor = "white";
@@ -123,7 +105,7 @@ export class ShipEvents {
                     }
                 }
                 else {
-                    if (playerGameBoardDivs[i + 4] && i + 5 <= rowEnd){
+                    if (playerGameBoardDivs[i + 4] && i + 4 <= rowEnd){
                         const playerHuman = new Player("player");
                         let squareArray = playerGameBoardDivs[i].id.split(",");
                         squareArray = squareArray.map(Number);
@@ -164,7 +146,7 @@ export class ShipEvents {
                     ship.occupiedGrid.forEach((grid) => {
                         if (grid[0] === squareArray[0] && grid[1] === squareArray[1]) {
                             console.log(grid, squareArray)
-                            playerGameBoardDivs[i].style.backgroundColor = "grey"
+                            playerGameBoardDivs[i].style.backgroundColorc = "grey"
                             return;
                         }
                     })
@@ -193,13 +175,28 @@ export class ShipEvents {
                     }
                 }
                 else {
-                    if (playerGameBoardDivs[i + 4] && i + 5 <= rowEnd){
-                        playerGameBoardDivs[i].style.backgroundColor = "black";
-                        playerGameBoardDivs[i + 1].style.backgroundColor = "black";
-                        playerGameBoardDivs[i + 2].style.backgroundColor = "black";
-                        playerGameBoardDivs[i + 3].style.backgroundColor = "black";
-                        playerGameBoardDivs[i + 4].style.backgroundColor = "black";
+                    if (selectedShip === "Battleship") {
+                        if (playerGameBoardDivs[i + 3] && i + 3 <= rowEnd){
+                            playerGameBoardDivs[i].style.backgroundColor = "black";
+                            playerGameBoardDivs[i + 1].style.backgroundColor = "black";
+                            playerGameBoardDivs[i + 2].style.backgroundColor = "black";
+                            playerGameBoardDivs[i + 3].style.backgroundColor = "black";
+                        }
                     }
+                    if (selectedShip === "Destroyer" || selectedShip === "Submarine") {
+                        if (playerGameBoardDivs[i + 2] && i + 2 <= rowEnd){
+                            playerGameBoardDivs[i].style.backgroundColor = "black";
+                            playerGameBoardDivs[i + 1].style.backgroundColor = "black";
+                            playerGameBoardDivs[i + 2].style.backgroundColor = "black";
+                        }
+                    }
+                    if (selectedShip === "Patrol Boat") {
+                        if (playerGameBoardDivs[i + 1] && i + 1 <= rowEnd){
+                            playerGameBoardDivs[i + 1].style.backgroundColor = "black";
+                            playerGameBoardDivs[i + 2].style.backgroundColor = "black";
+                        }
+                    }
+
                 }
             });
 
@@ -221,7 +218,7 @@ export class ShipEvents {
                     }
                 }
                 else {
-                    if (playerGameBoardDivs[i + 4] && i + 5 <= rowEnd){
+                    if (playerGameBoardDivs[i + 4] && i + 4 <= rowEnd){
                         playerGameBoardDivs[i].style.backgroundColor = "white";
                         playerGameBoardDivs[i + 1].style.backgroundColor = "white";
                         playerGameBoardDivs[i + 2].style.backgroundColor = "white";
@@ -239,39 +236,21 @@ export class ShipEvents {
         addEventListener('keydown', (event) => {
             
             if (event.key === 'c') {
-                if (this.shipDirection === "Vertical") {
-                    this.shipDirection = "Horizontal";
-                    for (let i = 0; i < playerGameBoardDivs.length; i++) {
+                for (let i = 0; i < playerGameBoardDivs.length; i++) {
                         let squareArray = playerGameBoardDivs[i].id.split(",");
                         squareArray = squareArray.map(Number);
                         this.player.gameBoard.ships.forEach((ship) => {
                             ship.occupiedGrid.forEach((grid) => {
                                 if (grid[0] === squareArray[0] && grid[1] === squareArray[1]) {
-                                   return;
+                                   playerGameBoardDivs[i].style.backgroundColor = "grey";   
                                 }
                             })
                         })
-                        playerGameBoardDivs[i].style.backgroundColor = "white";   
+                        
                     }
                 }
-                else {
-                    this.shipDirection = "Vertical";
-                    for (let i = 0; i < playerGameBoardDivs.length; i++) {
-                        let squareArray = playerGameBoardDivs[i].id.split(",");
-                        squareArray = squareArray.map(Number);
-                        this.player.gameBoard.ships.forEach((ship) => {
-                            ship.occupiedGrid.forEach((grid) => {
-                                if (grid[0] === squareArray[0] && grid[1] === squareArray[1]) {
-                                   return;
-                                }
-                            })
-                        })
-                        playerGameBoardDivs[i].style.backgroundColor = "white";   
-                    }
-                }
-            }
             console.log(this.shipDirection)
-
+                
         });
     }
 }
