@@ -381,6 +381,7 @@ export class ShipEvents {
                                 squareArray = squareArray.map(Number);
                                 this.player.gameBoard.placeShip(2, this.shipDirection, squareArray)
                                 this.activeShip = "Patrol Boat";
+                            }
                             break;
                     }
                 }
