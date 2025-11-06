@@ -6,7 +6,7 @@ export class ShipEvents {
     constructor () {
         this.shipDirection = "Horizontal";
         this.activeShip = "Carrier";
-        this.player = null;
+        this.player = new Player("player");
         this.isToggling = false;
     }
 
@@ -18,7 +18,7 @@ export class ShipEvents {
             if (event.key === 'c') {
                 if (this.shipDirection === "Vertical") {
                     this.shipDirection = "Horizontal";
-                    if (!this.player) {
+                    if (!this.player.gameBoard.ships) {
                         for (let i = 0; i < playerGameBoardDivs.length; i++) {
                             playerGameBoardDivs[i].style.backgroundColor = "white";   
                         }
@@ -39,7 +39,7 @@ export class ShipEvents {
 
                 else {
                     this.shipDirection = "Vertical";
-                    if (!this.player) {
+                    if (!this.player.gameBoard.ships) {
                         for (let i = 0; i < playerGameBoardDivs.length; i++) {
                             playerGameBoardDivs[i].style.backgroundColor = "white";   
                         }
@@ -66,10 +66,16 @@ export class ShipEvents {
 
     placeShipEvents() {
         console.log(this.activeShip)
+       
+        console.log(this.player.gameBoard.ships)
+        
         const playerGameBoardDivs = document.querySelectorAll('.playerGameBoardDivs')
         for (let i = 0; i < playerGameBoardDivs.length; i++) {
             
             const length = () => {
+                if (this.activeShip === "Carrier") {
+                    return 5;
+                }
                 if (this.activeShip === "Battleship") {
                     return 4;
                 }
@@ -262,47 +268,56 @@ export class ShipEvents {
                     switch (this.activeShip) {
                         case "Carrier":
                             if (playerGameBoardDivs[i + 40]){
-                                const playerHuman = new Player("player");
                                 let squareArray = playerGameBoardDivs[i].id.split(",");
                                 squareArray = squareArray.map(Number);
                                 console.log(squareArray);
 
-                                playerHuman.gameBoard.placeShip(5, this.shipDirection, squareArray)
-                                console.log(playerHuman.gameBoard.ships);
+                                this.player.gameBoard.placeShip(5, this.shipDirection, squareArray)
+                                console.log(this.player.gameBoard.ships);
 
                                 //update class to hold info
-                                this.player = playerHuman;
                                 this.activeShip = "Battleship"
-                                renderContent.renderPlaceRemaining(playerHuman.gameBoard.ships, this.activeShip);
+                                renderContent.renderPlaceRemaining(this.player.gameBoard.ships, this.activeShip);
                             }
                             break;
 
                         case "Battleship":
                             if (playerGameBoardDivs[i + 30]){
-                                this.activeShip = "Destroyer";
+                                let squareArray = playerGameBoardDivs[i].id.split(",");
+                                squareArray = squareArray.map(Number);
+                                
                                 this.player.gameBoard.placeShip(4, this.shipDirection, squareArray)
+
+                                this.activeShip = "Destroyer";
                                 renderContent.renderPlaceRemaining(this.player.gameBoard.ships, this.activeShip);
                             }
                             break;
 
                         case "Destroyer":
                             if (playerGameBoardDivs[i + 20]){
-                                this.activeShip = "Submarine";
+                                let squareArray = playerGameBoardDivs[i].id.split(",");
+                                squareArray = squareArray.map(Number);
                                 this.player.gameBoard.placeShip(3, this.shipDirection, squareArray)
+                                this.activeShip = "Submarine";
                                 renderContent.renderPlaceRemaining(this.player.gameBoard.ships, this.activeShip);
                             }
                             break;
                         
                         case "Submarine":
                             if (playerGameBoardDivs[i + 20]){
-                                this.activeShip = "Patrol Boat";
+                                let squareArray = playerGameBoardDivs[i].id.split(",");
+                                squareArray = squareArray.map(Number);
+                                
                                 this.player.gameBoard.placeShip(3, this.shipDirection, squareArray)
+                                this.activeShip = "Patrol Boat";
                                 renderContent.renderPlaceRemaining(this.player.gameBoard.ships, this.activeShip);
                             }
                             break;
 
                         case "Patrol Boat":
                             if (playerGameBoardDivs[i + 10]){
+                                let squareArray = playerGameBoardDivs[i].id.split(",");
+                                squareArray = squareArray.map(Number);
                                 // this.activeShip = "Patrol Boat";
                                 // renderContent.renderPlaceRemaining(playerHuman.gameBoard.ships, this.activeShip);
                             }
@@ -314,51 +329,58 @@ export class ShipEvents {
                     switch (this.activeShip) {
                         case "Carrier":
                             if (playerGameBoardDivs[i + 4] && i + 4 <= rowEnd){
-                                const playerHuman = new Player("player");
                                 let squareArray = playerGameBoardDivs[i].id.split(",");
                                 squareArray = squareArray.map(Number);
                                 console.log(squareArray);
 
-                                playerHuman.gameBoard.placeShip(5, this.shipDirection, squareArray)
-                                console.log(playerHuman.gameBoard.ships);
+                                this.player.gameBoard.placeShip(5, this.shipDirection, squareArray)
+                                console.log(this.player.gameBoard.ships);
 
                                 //update class to hold info
-                                this.player = playerHuman;
                                 this.activeShip = "Battleship"
-                                renderContent.renderPlaceRemaining(playerHuman.gameBoard.ships, this.activeShip);
+                                renderContent.renderPlaceRemaining(this.player.gameBoard.ships, this.activeShip);
                             }
                             break;
 
                         case "Battleship":
                             if (playerGameBoardDivs[i + 3] && i + 3 <= rowEnd){
+                                let squareArray = playerGameBoardDivs[i].id.split(",");
+                                squareArray = squareArray.map(Number);
+                                
+                                this.player.gameBoard.placeShip(4, this.shipDirection, squareArray);
                                 this.activeShip = "Destroyer";
-                                this.player.gameBoard.placeShip(4, this.shipDirection, squareArray)
                                 renderContent.renderPlaceRemaining(this.player.gameBoard.ships, this.activeShip);
                             }
                             break;
 
                         case "Destroyer":
                             if (playerGameBoardDivs[i + 2] && i + 2 <= rowEnd){
-                                this.activeShip = "Submarine";
+                                let squareArray = playerGameBoardDivs[i].id.split(",");
+                                squareArray = squareArray.map(Number);
+                                
                                 this.player.gameBoard.placeShip(3, this.shipDirection, squareArray)
+                                this.activeShip = "Submarine";
                                 renderContent.renderPlaceRemaining(this.player.gameBoard.ships, this.activeShip);
                             }
                             break;
                         
                         case "Submarine":
                             if (playerGameBoardDivs[i + 2] && i + 2 <= rowEnd){
-                                this.activeShip = "Patrol Boat";
+                                let squareArray = playerGameBoardDivs[i].id.split(",");
+                                squareArray = squareArray.map(Number);
+                                
                                 this.player.gameBoard.placeShip(3, this.shipDirection, squareArray)
+                                this.activeShip = "Patrol Boat";
                                 renderContent.renderPlaceRemaining(this.player.gameBoard.ships, this.activeShip);
                             }
                             break;
 
                         case "Patrol Boat":
                             if (playerGameBoardDivs[i + 1] && i + 1 <= rowEnd){
+                                let squareArray = playerGameBoardDivs[i].id.split(",");
+                                squareArray = squareArray.map(Number);
                                 this.player.gameBoard.placeShip(2, this.shipDirection, squareArray)
-                                // this.activeShip = "Patrol Boat";
-                                // renderContent.renderPlaceRemaining(playerHuman.gameBoard.ships, this.activeShip);
-                            }
+                                this.activeShip = "Patrol Boat";
                             break;
                     }
                 }

@@ -50,7 +50,6 @@ class ContentRender {
                 playerGameBoardDivs[i].style.backgroundColor = "grey";
             }
         }
-        placeShip.placeShipEvents();
     }
 }
 
