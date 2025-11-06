@@ -26,7 +26,7 @@ body {
     border-bottom: 2px dotted black;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
 
 }
 
@@ -34,12 +34,12 @@ body {
     height: 100%;
     width: 100%;
     border: 1px solid black;
+    background-color: white;
 }
 
 #opponentGameBoard {
     display: grid;
     grid-template: repeat(10, 1fr) / repeat(10, 1fr);
-    border: 1px solid black;
     margin: 30px;
     height: 250px;
     width: 250px;
@@ -73,7 +73,6 @@ body {
 #playerGameBoard {
     display: grid;
     grid-template: repeat(10, 1fr) / repeat(10, 1fr);
-    border: 1px solid black;
     margin: 50px;
     height: 300px;
     width: 300px;
