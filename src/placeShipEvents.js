@@ -1,11 +1,13 @@
 import { Player } from "./playerClass";
 import { renderContent } from "./renderContent";
+import { occupiedCheck } from "./occupiedCheck";
 
 export class ShipEvents {
     constructor () {
         this.shipDirection = "Horizontal";
         this.activeShip = "Carrier";
         this.player = null;
+        this.isToggling = false;
     }
 
     keydownEventSetup() {
@@ -16,15 +18,45 @@ export class ShipEvents {
             if (event.key === 'c') {
                 if (this.shipDirection === "Vertical") {
                     this.shipDirection = "Horizontal";
-                    for (let i = 0; i < playerGameBoardDivs.length; i++) {
-                        playerGameBoardDivs[i].style.backgroundColor = "white";   
+                    if (!this.player) {
+                        for (let i = 0; i < playerGameBoardDivs.length; i++) {
+                            playerGameBoardDivs[i].style.backgroundColor = "white";   
+                        }
+                    }
+                    else {
+                        for (let i = 0; i < playerGameBoardDivs.length; i++) {
+                            
+                            playerGameBoardDivs[i].style.backgroundColor = "white";
+                            let squareArray = playerGameBoardDivs[i].id.split(",");
+                            squareArray = squareArray.map(Number);
+                            const occupied = occupiedCheck(this.player.gameBoard.ships, squareArray, 1, this.shipDirection)
+                            if (occupied){ 
+                                playerGameBoardDivs[i].style.backgroundColor = "grey";
+                            }
+                        }
                     }
                 }
+
                 else {
                     this.shipDirection = "Vertical";
-                    for (let i = 0; i < playerGameBoardDivs.length; i++) {
-                        playerGameBoardDivs[i].style.backgroundColor = "white";   
+                    if (!this.player) {
+                        for (let i = 0; i < playerGameBoardDivs.length; i++) {
+                            playerGameBoardDivs[i].style.backgroundColor = "white";   
+                        }
                     }
+                    else {
+                    
+                        for (let i = 0; i < playerGameBoardDivs.length; i++) {
+                            
+                            playerGameBoardDivs[i].style.backgroundColor = "white";
+                            let squareArray = playerGameBoardDivs[i].id.split(",");
+                            squareArray = squareArray.map(Number);
+                            const occupied = occupiedCheck(this.player.gameBoard.ships, squareArray, 1, this.shipDirection)
+                            if (occupied){ 
+                                playerGameBoardDivs[i].style.backgroundColor = "grey";
+                            }
+                        }
+                    }   
                 }
             }
             console.log(this.shipDirection)
@@ -36,13 +68,17 @@ export class ShipEvents {
         const playerGameBoardDivs = document.querySelectorAll('.playerGameBoardDivs')
     
         for (let i = 0; i < playerGameBoardDivs.length; i++) {
+            
+
+            console.log('carrier event')
 
             //calculate row start and row end so horizontals dont overflow
 
             const rowStart = Math.floor(i /10) * 10;
-            const rowEnd = rowStart + 10;
+            const rowEnd = rowStart + 9;
 
             playerGameBoardDivs[i].addEventListener('mouseenter', () => {
+                console.log('carrier event')
                 if (this.shipDirection === "Vertical") {
                     if (playerGameBoardDivs[i + 40]){
                         playerGameBoardDivs[i].style.backgroundColor = "black";
@@ -53,7 +89,7 @@ export class ShipEvents {
                     }
                 }
                 else {
-                    if (playerGameBoardDivs[i + 4] && i + 4 <= rowEnd){
+                    if (playerGameBoardDivs[i + 4] && i + 5 <= rowEnd){
                         playerGameBoardDivs[i].style.backgroundColor = "black";
                         playerGameBoardDivs[i + 1].style.backgroundColor = "black";
                         playerGameBoardDivs[i + 2].style.backgroundColor = "black";
@@ -74,7 +110,7 @@ export class ShipEvents {
                     }
                 }
                 else {
-                    if (playerGameBoardDivs[i + 4] && i + 4 <= rowEnd){
+                    if (playerGameBoardDivs[i + 4] && i + 5 <= rowEnd){
                         playerGameBoardDivs[i].style.backgroundColor = "white";
                         playerGameBoardDivs[i + 1].style.backgroundColor = "white";
                         playerGameBoardDivs[i + 2].style.backgroundColor = "white";
@@ -95,17 +131,15 @@ export class ShipEvents {
 
                         playerHuman.gameBoard.placeShip(5, this.shipDirection, squareArray)
                         console.log(playerHuman.gameBoard.ships);
-                        let playerBoard = document.getElementById("playerGameBoard");
-                        playerBoard.innerHTML = ""; 
-                        //update class to hold info
 
+                        //update class to hold info
                         this.player = playerHuman;
                         this.activeShip = "Battleship"
                         renderContent.renderPlaceRemaining(playerHuman.gameBoard.ships, "Battleship");
                     }
                 }
                 else {
-                    if (playerGameBoardDivs[i + 4] && i + 4 <= rowEnd){
+                    if (playerGameBoardDivs[i + 4] && i + 5 <= rowEnd){
                         const playerHuman = new Player("player");
                         let squareArray = playerGameBoardDivs[i].id.split(",");
                         squareArray = squareArray.map(Number);
@@ -113,8 +147,7 @@ export class ShipEvents {
 
                         playerHuman.gameBoard.placeShip(5, this.shipDirection, squareArray)
                         console.log(playerHuman.gameBoard.ships);
-                        let playerBoard = document.getElementById("playerGameBoard");
-                        playerBoard.innerHTML = "";
+
 
                         //update class to hold info
                         this.player = playerHuman;
@@ -129,264 +162,137 @@ export class ShipEvents {
 
     placeRemainingEvents(selectedShip) {
         const playerGameBoardDivs = document.querySelectorAll('.playerGameBoardDivs')
+        const length = () => {
+            if (this.activeShip === "Battleship") {
+                return 4;
+            }
+            if (this.activeShip === "Destroyer" || this.activeShip === "Submarine" ) {
+                return 3;
+            }
+            return 2;
+        }
     
         for (let i = 0; i < playerGameBoardDivs.length; i++) {
-
+            
             //calculate row start and row end so horizontals dont overflow
 
             const rowStart = Math.floor(i /10) * 10;
-            const rowEnd = rowStart + 10;
+            const rowEnd = rowStart + 9;
 
             //turn string id into array for comparison
             let squareArray = playerGameBoardDivs[i].id.split(",");
             squareArray = squareArray.map(Number);
-
             playerGameBoardDivs[i].addEventListener('mouseenter', () => {
-                this.player.gameBoard.ships.forEach((ship) => {
-                    ship.occupiedGrid.forEach((grid) => {
-                        if (grid[0] === squareArray[0] && grid[1] === squareArray[1]) {
-                            console.log(grid, squareArray)
-                            playerGameBoardDivs[i].style.backgroundColorc = "grey"
-                            return;
-                        }
-                    })
-                })
-                if (this.shipDirection === "Vertical") {
-                   if (selectedShip === "Battleship") {
-                        if (playerGameBoardDivs[i + 30]){
-                            playerGameBoardDivs[i].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 10].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 20].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 30].style.backgroundColor = "black";
-                        }
-                    }
-                    if (selectedShip === "Destroyer" || selectedShip === "Submarine") {
-                        if (playerGameBoardDivs[i + 20]){
-                            playerGameBoardDivs[i].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 10].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 20].style.backgroundColor = "black";
-                        }
-                    }
-                    if (selectedShip === "Patrol Boat") {
-                        if (playerGameBoardDivs[i + 10]){
-                            playerGameBoardDivs[i].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 10].style.backgroundColor = "black";
-                        }
-                    }
-                }
-                else {
-                    if (selectedShip === "Battleship") {
-                        if (playerGameBoardDivs[i + 3] && i + 3 <= rowEnd){
-                            playerGameBoardDivs[i].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 1].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 2].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 3].style.backgroundColor = "black";
-                        }
-                    }
-                    if (selectedShip === "Destroyer" || selectedShip === "Submarine") {
-                        if (playerGameBoardDivs[i + 2] && i + 2 <= rowEnd){
-                            playerGameBoardDivs[i].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 1].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 2].style.backgroundColor = "black";
-                        }
-                    }
-                    if (selectedShip === "Patrol Boat") {
-                        if (playerGameBoardDivs[i + 1] && i + 1 <= rowEnd){
-                            playerGameBoardDivs[i + 1].style.backgroundColor = "black";
-                            playerGameBoardDivs[i + 2].style.backgroundColor = "black";
-                        }
-                    }
 
+                
+                const occupied = occupiedCheck(this.player.gameBoard.ships, squareArray, length(), this.shipDirection);
+                console.log('remaining event')
+                if (!occupied) {
+                    if (this.shipDirection === "Vertical") {
+                        if (selectedShip === "Battleship") {
+                            if (playerGameBoardDivs[i + 30]){
+                                playerGameBoardDivs[i].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 10].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 20].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 30].style.backgroundColor = "black";
+                            }
+                        }
+                        if (selectedShip === "Destroyer" || selectedShip === "Submarine") {
+                            if (playerGameBoardDivs[i + 20]){
+                                playerGameBoardDivs[i].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 10].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 20].style.backgroundColor = "black";
+                            }
+                        }
+                        if (selectedShip === "Patrol Boat") {
+                            if (playerGameBoardDivs[i + 10]){
+                                playerGameBoardDivs[i].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 10].style.backgroundColor = "black";
+                            }
+                        }
+                    }
+                    else {
+                        if (selectedShip === "Battleship") {
+                            if (playerGameBoardDivs[i + 3] && i + 3 <= rowEnd){
+                                playerGameBoardDivs[i].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 1].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 2].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 3].style.backgroundColor = "black";
+                            }
+                        }
+                        if (selectedShip === "Destroyer" || selectedShip === "Submarine") {
+                            if (playerGameBoardDivs[i + 2] && i + 2 <= rowEnd){
+                                playerGameBoardDivs[i].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 1].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 2].style.backgroundColor = "black";
+                            }
+                        }
+                        if (selectedShip === "Patrol Boat") {
+                            if (playerGameBoardDivs[i + 1] && i + 1 <= rowEnd){
+                                playerGameBoardDivs[i].style.backgroundColor = "black";
+                                playerGameBoardDivs[i + 1].style.backgroundColor = "black";
+                            }
+                        }
+                    }
                 }
+                
             });
 
             playerGameBoardDivs[i].addEventListener('mouseout', () => {
-                this.player.gameBoard.ships.forEach((ship) => {
-                    ship.occupiedGrid.forEach((grid) => {
-                        if (grid[0] === squareArray[0] && grid[1] === squareArray[1]) {
-                            playerGameBoardDivs[i].style.backgroundColor = "grey"
+                //check if cell is occuped before overwriting
+                const occupied = occupiedCheck(this.player.gameBoard.ships, squareArray, length(), this.shipDirection);
+
+                if (!occupied) {
+                    if (this.shipDirection === "Vertical") {
+                        if (selectedShip === "Battleship") {
+                            if (playerGameBoardDivs[i + 30]){
+                                playerGameBoardDivs[i].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 10].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 20].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 30].style.backgroundColor = "white";
+                            }
                         }
-                    })
-                })
-                if (this.shipDirection === "Vertical") {
-                    if (playerGameBoardDivs[i + 40]){
-                        playerGameBoardDivs[i].style.backgroundColor = "white";
-                        playerGameBoardDivs[i + 10].style.backgroundColor = "white";
-                        playerGameBoardDivs[i + 20].style.backgroundColor = "white";
-                        playerGameBoardDivs[i + 30].style.backgroundColor = "white";
-                        playerGameBoardDivs[i + 40].style.backgroundColor = "white";
+                        if (selectedShip === "Destroyer" || selectedShip === "Submarine") {
+                            if (playerGameBoardDivs[i + 20]){
+                                playerGameBoardDivs[i].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 10].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 20].style.backgroundColor = "white";
+                            }
+                        }
+                        if (selectedShip === "Patrol Boat") {
+                            if (playerGameBoardDivs[i + 10]){
+                                playerGameBoardDivs[i].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 10].style.backgroundColor = "white";
+                            }
+                        }
+                    }
+                    else {
+                        if (selectedShip === "Battleship") {
+                            if (playerGameBoardDivs[i + 3] && i + 3 <= rowEnd){
+                                playerGameBoardDivs[i].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 1].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 2].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 3].style.backgroundColor = "white";
+                            }
+                        }
+                        if (selectedShip === "Destroyer" || selectedShip === "Submarine") {
+                            if (playerGameBoardDivs[i + 2] && i + 2 <= rowEnd){
+                                playerGameBoardDivs[i].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 1].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 2].style.backgroundColor = "white";
+                            }
+                        }
+                        if (selectedShip === "Patrol Boat") {
+                            if (playerGameBoardDivs[i + 1] && i + 1 <= rowEnd){
+                                playerGameBoardDivs[i].style.backgroundColor = "white";
+                                playerGameBoardDivs[i + 1].style.backgroundColor = "white";
+                            }
+                        }
                     }
                 }
-                else {
-                    if (playerGameBoardDivs[i + 4] && i + 4 <= rowEnd){
-                        playerGameBoardDivs[i].style.backgroundColor = "white";
-                        playerGameBoardDivs[i + 1].style.backgroundColor = "white";
-                        playerGameBoardDivs[i + 2].style.backgroundColor = "white";
-                        playerGameBoardDivs[i + 3].style.backgroundColor = "white";
-                        playerGameBoardDivs[i + 4].style.backgroundColor = "white";
-                    }
-                }
+
             });
         }
     }
-
-    remainingKeydownEventSetup() {
-        const playerGameBoardDivs = document.querySelectorAll('.playerGameBoardDivs')
-
-        addEventListener('keydown', (event) => {
-            
-            if (event.key === 'c') {
-                for (let i = 0; i < playerGameBoardDivs.length; i++) {
-                        let squareArray = playerGameBoardDivs[i].id.split(",");
-                        squareArray = squareArray.map(Number);
-                        this.player.gameBoard.ships.forEach((ship) => {
-                            ship.occupiedGrid.forEach((grid) => {
-                                if (grid[0] === squareArray[0] && grid[1] === squareArray[1]) {
-                                   playerGameBoardDivs[i].style.backgroundColor = "grey";   
-                                }
-                            })
-                        })
-                        
-                    }
-                }
-            console.log(this.shipDirection)
-                
-        });
-    }
 }
  
-
-
-//             }
-
-
-//                     if (selectedShip === "Battleship") {
-//                         if (playerGameBoardDivs[i + 30]){
-//                             playerGameBoardDivs[i].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 10].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 20].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 30].style.backgroundColor = "black";
-//                         }
-//                     }
-//                     if (selectedShip === "Destroyer" || selectedShip === "Submarine") {
-//                         if (playerGameBoardDivs[i + 20]){
-//                             playerGameBoardDivs[i].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 10].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 20].style.backgroundColor = "black";
-//                         }
-//                     }
-//                     if (selectedShip === "Patrol Boat") {
-//                         if (playerGameBoardDivs[i + 10]){
-//                             playerGameBoardDivs[i].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 10].style.backgroundColor = "black";
-//                         }
-//                     }
-                        
-//                 }
-//                 if (shipDirection === "Horizontal") {
-//                     if (selectedShip === "Carrier") {
-//                         if (playerGameBoardDivs[i + 4] && i + 5 <= rowEnd){
-//                             playerGameBoardDivs[i].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 1].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 2].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 3].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 4].style.backgroundColor = "black";
-//                         }
-//                     }
-//                     if (selectedShip === "Battleship") {
-//                         if (playerGameBoardDivs[i + 3] && i + 3 <= rowEnd){
-//                             playerGameBoardDivs[i].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 1].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 2].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 3].style.backgroundColor = "black";
-//                         }
-//                     }
-//                     if (selectedShip === "Destroyer" || selectedShip === "Submarine") {
-//                         if (playerGameBoardDivs[i + 2] && i + 2 <= rowEnd){
-//                             playerGameBoardDivs[i].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 1].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 2].style.backgroundColor = "black";
-//                         }
-//                     }
-//                     if (selectedShip === "Patrol Boat") {
-//                         if (playerGameBoardDivs[i + 1] && i + 1 <= rowEnd){
-//                             playerGameBoardDivs[i].style.backgroundColor = "black";
-//                             playerGameBoardDivs[i + 1].style.backgroundColor = "black";
-//                         }
-//                     }
-                        
-//                 }
-//             });
-//             playerGameBoardDivs[i].addEventListener('mouseout', () => {
-//                 playerGameBoardDivs[i].style.backgroundColor = "white"
-//                 if (shipDirection === "Vertical") {
-//                     if (selectedShip === "Carrier") {
-//                         if (playerGameBoardDivs[i + 40]){
-//                             playerGameBoardDivs[i + 10].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 20].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 30].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 40].style.backgroundColor = "white";
-//                         }
-//                     }
-//                     if (selectedShip === "Battleship") {
-//                         if (playerGameBoardDivs[i + 30]){
-//                             playerGameBoardDivs[i].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 10].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 20].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 30].style.backgroundColor = "white";
-//                         }
-//                     }
-//                     if (selectedShip === "Destroyer" || selectedShip === "Submarine") {
-//                         if (playerGameBoardDivs[i + 20]){
-//                             playerGameBoardDivs[i].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 10].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 20].style.backgroundColor = "white";
-//                         }
-//                     }
-//                     if (selectedShip === "Patrol Boat") {
-//                         if (playerGameBoardDivs[i + 10]){
-//                             playerGameBoardDivs[i].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 10].style.backgroundColor = "white";
-//                         }
-//                     }
-                    
-//                 }
-//                 if (shipDirection === "Horizontal") {
-//                     if (selectedShip === "Carrier") {
-//                         if (playerGameBoardDivs[i + 4] && i + 4 <= rowEnd){
-//                             playerGameBoardDivs[i].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 1].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 2].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 3].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 4].style.backgroundColor = "white";
-//                         }
-//                     }
-//                     if (selectedShip === "Battleship") {
-//                         if (playerGameBoardDivs[i + 3] && i + 3 <= rowEnd){
-//                             playerGameBoardDivs[i].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 1].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 2].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 3].style.backgroundColor = "white";
-//                         }
-//                     }
-//                     if (selectedShip === "Destroyer" || selectedShip === "Submarine") {
-//                         if (playerGameBoardDivs[i + 2] && i + 2 <= rowEnd){
-//                             playerGameBoardDivs[i].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 1].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 2].style.backgroundColor = "white";
-//                         }
-//                     }
-//                     if (selectedShip === "Patrol Boat") {
-//                         if (playerGameBoardDivs[i + 1] && i + 1 <= rowEnd){
-//                             playerGameBoardDivs[i].style.backgroundColor = "white";
-//                             playerGameBoardDivs[i + 1].style.backgroundColor = "white";
-//                         }
-//                     }
-                        
-//                 }
-//             })
-//         }
-//     }
-
-    
-// }
