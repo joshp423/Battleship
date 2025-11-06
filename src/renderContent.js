@@ -30,7 +30,7 @@ class ContentRender {
             i++;
         }
         placeShip.keydownEventSetup();
-        placeShip.placeCarrierEvents();
+        placeShip.placeShipEvents();
         
     }
 
@@ -50,26 +50,7 @@ class ContentRender {
                 playerGameBoardDivs[i].style.backgroundColor = "grey";
             }
         }
-        // while (i < 10) {
-        //     let j = 0;
-        //     while (j < 10) {
-        //         const square = document.createElement('div');
-        //         square.classList.add('playerGameBoardDivs');
-        //         square.id = [i, j];
-        //         playerGameBoard.append(square);
-        //         shipsArray.forEach((ship) => {
-        //             ship.occupiedGrid.forEach((grid) => {
-        //                 if (grid[0] === i && grid[1] === j) {
-        //                     square.style.backgroundColor = "grey";
-        //                 }
-        //             })
-        //         })
-        //         j++;
-        //     }
-        //     i++;
-        // };
-    
-        placeShip.placeRemainingEvents(placeShip.activeShip);
+        placeShip.placeShipEvents();
     }
 }
 
