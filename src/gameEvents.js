@@ -1,27 +1,37 @@
 import { occupiedCheck } from "./occupiedCheck";
 import { Player } from "./playerClass";
+import { discoveredCheck } from "./discoveredCheck";
 
 export class GameEvents {
     constructor(playerHuman){
         this.playerHuman = playerHuman;
         this.playerCPU = new Player("CPU");
+        this.discoveredSquares = null;
         this.turn = "Player";
     }
 
     setUpEventListenersOpponentBoard(){
         const opponentGameBoardDivs = document.querySelectorAll('.opponentGameBoardDivs');
         for (let i = 0; i < opponentGameBoardDivs.length; i++) {
+            let squareArray = opponentGameBoardDivs[i].id.split(",");
+            squareArray = squareArray.map(Number);
+            if (this.discoveredSquares) {
+                let discovered = discoveredCheck(this.discoveredSquares, squareArray)
+            }
             opponentGameBoardDivs[i].addEventListener('mouseenter', () => {
-                //change border style?
-                opponentGameBoardDivs[i].style.backgroundColor = "orange";
+                if (this.turn === "Player") {
+                    //change border style?
+                    opponentGameBoardDivs[i].style.backgroundColor = "orange";
+                }   
             })
             opponentGameBoardDivs[i].addEventListener('mouseout', () => {
-                opponentGameBoardDivs[i].style.backgroundColor = "white";
+                if (this.turn === "Player") {
+                    opponentGameBoardDivs[i].style.backgroundColor = "white";
+                }
             })
             opponentGameBoardDivs[i].addEventListener('click', () => {
                 if (this.turn === "Player") {
-                    let squareArray = opponentGameBoardDivs[i].id.split(",");
-                    squareArray = squareArray.map(Number);
+                    
                     const occupied = occupiedCheck(this.playerCPU.gameBoard.ships, squareArray, 1, "Vertical");
                     if (!occupied) {
                         opponentGameBoardDivs[i].style.backgroundColor = "blue";
