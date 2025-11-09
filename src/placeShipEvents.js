@@ -320,9 +320,10 @@ export class ShipEvents {
                                 let squareArray = playerGameBoardDivs[i].id.split(",");
                                 squareArray = squareArray.map(Number);
                                 this.player.gameBoard.placeShip(2, this.shipDirection, squareArray)
-                                this.activeShip = "Patrol Boat";
                                 renderContent.renderStartGame(this.player.gameBoard.ships)
                                 const Game = new GameEvents(this.player);
+                                Game.playerCPU.gameBoard.createFleetRandom(Game.playerCPU.gameBoard.ships);
+                                console.log(Game.playerCPU.gameBoard.ships);
                                 renderContent.renderStartGame(this.player.gameBoard.ships, Game)
                             }
                             break;
@@ -384,9 +385,10 @@ export class ShipEvents {
                                 let squareArray = playerGameBoardDivs[i].id.split(",");
                                 squareArray = squareArray.map(Number);
                                 this.player.gameBoard.placeShip(2, this.shipDirection, squareArray)
-                                this.activeShip = "Patrol Boat";
                                 const Game = new GameEvents(this.player);
-                                renderContent.renderStartGame(this.player.gameBoard.ships, Game)
+                                Game.playerCPU.gameBoard.createFleetRandom(Game.playerCPU.gameBoard.ships);
+                                console.log(Game.playerCPU.gameBoard.ships);
+                                renderContent.renderStartGame(this.player.gameBoard.ships, Game);  
                             }
                             break;
                     }

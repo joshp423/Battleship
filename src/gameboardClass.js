@@ -1,4 +1,5 @@
 import { GridSquare } from "./gridClass";
+import { occupiedCheck } from "./occupiedCheck";
 import { occupiedGrid, Ship } from "./shipClass";
 
 function createGrid(){
@@ -74,6 +75,78 @@ export class Gameboard {
             }
         }
     };
+
+    createFleetRandom(gameBoardShips) {
+
+        let counter = 0;
+        while (counter < 5) {
+            let y = Math.floor(Math.random() * 10);
+            let x = Math.floor(Math.random() * 10);
+            let length;
+            let directionDecider = Math.floor(Math.random() * 2);
+            let direction;
+            let occupied;
+            if (directionDecider === 0) {
+                direction = "Horizontal";
+            }
+            else {
+                direction = "Vertical";
+            }
+            if (counter === 0 ) {
+                length = 5;
+                this.placeShip(length, direction, [y, x]);
+                counter++;
+            }
+            else if (counter === 1) {
+                length = 4;
+                occupied = existingCheck(gameBoardShips, direction, length, y, x);
+                if (occupied === false) {
+                    this.placeShip(length, direction, [y, x]);
+                    counter++;
+                }
+            }
+            else if (counter === 2 || counter === 3) {
+                length = 3;
+                occupied = existingCheck(gameBoardShips, direction, length, y, x);
+                if (occupied === false) {
+                    this.placeShip(length, direction, [y, x]);
+                    counter++;
+                }
+            }
+            else if (counter === 4) {
+                length = 2;
+                occupied = existingCheck(gameBoardShips, direction, length, y, x);
+                if (occupied === false) {
+                    this.placeShip(length, direction, [y, x]);
+                    counter++;
+                }
+            }
+        }
+        function existingCheck(gameBoardShips, shipDirection, length, y, x) {
+            let shipCheckArray = [];
+            if (shipDirection === "Vertical") {
+                for (let i = 0; i < length; i++) {
+                    shipCheckArray.push([y + i, x])
+                }
+            }
+            else {
+                for (let i = 0; i < length; i++) {
+                    shipCheckArray.push([y, x + i])
+                }
+            }
+            //have to use for of instead of for each to exit function immediately with return
+            for (const ship of gameBoardShips) {
+                for (const grid of ship.occupiedGrid) {
+                    for (const squares of shipCheckArray) {
+                        if (grid[0] === squares[0] && grid[1] === squares[1]) {
+                                return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+    }
 
 
 
