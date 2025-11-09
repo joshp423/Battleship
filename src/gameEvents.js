@@ -15,18 +15,23 @@ export class GameEvents {
         for (let i = 0; i < opponentGameBoardDivs.length; i++) {
             let squareArray = opponentGameBoardDivs[i].id.split(",");
             squareArray = squareArray.map(Number);
+            let discovered = false;
             if (this.discoveredSquares) {
-                let discovered = discoveredCheck(this.discoveredSquares, squareArray)
+                discovered = discoveredCheck(this.discoveredSquares, squareArray)
             }
             opponentGameBoardDivs[i].addEventListener('mouseenter', () => {
                 if (this.turn === "Player") {
                     //change border style?
-                    opponentGameBoardDivs[i].style.backgroundColor = "orange";
-                }   
+                    if (discovered === false) {
+                        opponentGameBoardDivs[i].style.backgroundColor = "orange";
+                    }
+                }
             })
             opponentGameBoardDivs[i].addEventListener('mouseout', () => {
                 if (this.turn === "Player") {
-                    opponentGameBoardDivs[i].style.backgroundColor = "white";
+                    if (discovered === false) {
+                        opponentGameBoardDivs[i].style.backgroundColor = "white";
+                    }
                 }
             })
             opponentGameBoardDivs[i].addEventListener('click', () => {
@@ -39,7 +44,7 @@ export class GameEvents {
                     else {
                         this.playerCPU.gameBoard.receiveAttack(squareArray[0], squareArray[1]);
                     }
-                    
+                    this.discoveredSquares.push(opponentGameBoardDivs[i].id.split(",").map(Number))
                 }
             })
         }
