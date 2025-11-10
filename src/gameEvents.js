@@ -15,11 +15,12 @@ export class GameEvents {
         for (let i = 0; i < opponentGameBoardDivs.length; i++) {
             let squareArray = opponentGameBoardDivs[i].id.split(",");
             squareArray = squareArray.map(Number);
-            let discovered = false;
-            if (this.discoveredSquares) {
-                discovered = discoveredCheck(this.discoveredSquares, squareArray)
-            }
+            let discovered;
+            
             opponentGameBoardDivs[i].addEventListener('mouseenter', () => {
+                if (this.discoveredSquares) {
+                    discovered = discoveredCheck(this.discoveredSquares, squareArray)
+                }
                 if (this.turn === "Player") {
                     //change border style?
                     if (discovered === false) {
@@ -28,6 +29,9 @@ export class GameEvents {
                 }
             })
             opponentGameBoardDivs[i].addEventListener('mouseout', () => {
+                if (this.discoveredSquares) {
+                    discovered = discoveredCheck(this.discoveredSquares, squareArray)
+                }
                 if (this.turn === "Player") {
                     if (discovered === false) {
                         opponentGameBoardDivs[i].style.backgroundColor = "white";
@@ -35,6 +39,9 @@ export class GameEvents {
                 }
             })
             opponentGameBoardDivs[i].addEventListener('click', () => {
+                if (this.discoveredSquares) {
+                    discovered = discoveredCheck(this.discoveredSquares, squareArray)
+                }
                 if (this.turn === "Player") {
                     
                     const occupied = occupiedCheck(this.playerCPU.gameBoard.ships, squareArray, 1, "Vertical");
@@ -42,11 +49,24 @@ export class GameEvents {
                         opponentGameBoardDivs[i].style.backgroundColor = "blue";
                     }
                     else {
+                        opponentGameBoardDivs[i].style.backgroundColor = "grey";
                         this.playerCPU.gameBoard.receiveAttack(squareArray[0], squareArray[1]);
                     }
-                    this.discoveredSquares.push(opponentGameBoardDivs[i].id.split(",").map(Number))
+                    if (!this.discoveredSquares) {
+                        this.discoveredSquares = [];
+                        this.discoveredSquares.push(opponentGameBoardDivs[i].id.split(",").map(Number));
+                    }
+                    else {
+                        if (discovered === false) {
+                            this.discoveredSquares.push(opponentGameBoardDivs[i].id.split(",").map(Number));
+                        }
+                    }
+                    this.turn === "CPU";
                 }
             })
         }
+    }
+    gameTurnsLogic() {
+
     }
 }

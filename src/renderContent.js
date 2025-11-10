@@ -39,7 +39,6 @@ class ContentRender {
         const PlayerInstruction = document.getElementById('playerInstruction');
         PlayerInstruction.innerText = `Click to place ${currentShip}`;
         const playerGameBoardDivs = document.querySelectorAll('.playerGameBoardDivs')
-        let i = 0;
 
         for (let i = 0; i < playerGameBoardDivs.length; i++) {
                             
@@ -115,6 +114,33 @@ class ContentRender {
             k++;
         }
         Game.setUpEventListenersOpponentBoard();
+    }
+
+
+    renderGameTurns(){
+        const opponentBoardTable = document.getElementById('opponentBoardTable');
+        const playerBoardTable = document.getElementById('playerBoardTable');
+
+
+        const opponentCarrierStatus = document.getElementById('opponentCarrierShipStatus');
+        const opponentBattleshipStatus = document.getElementById('opponentBattleshipShipStatus');
+        const opponentDestroyerStatus = document.getElementById('opponentDestroyerShipStatus');
+        const opponentSubmarineStatus = document.getElementById('opponentSubmarineShipStatus');
+        const opponentPBStatus = document.getElementById('opponentPatrol-boatShipStatus');
+
+        const playerCarrierStatus = document.getElementById('CarrierShipStatus');
+        const playerCarrierHits = document.getElementById('carrierHits');
+        const playerBattleshipStatus = document.getElementById('BattleshipShipStatus');
+        const playerBattleshipHits = document.getElementById('battleshipHits');
+        const playerDestroyerStatus = document.getElementById('DestroyerShipStatus');
+        const playerDestroyerHits = document.getElementById('destroyerHits');
+        const playerSubmarineStatus = document.getElementById('SubmarineShipStatus');
+        const playerSubmarineHits = document.getElementById('submarineHits');
+        const playerPBStatus = document.getElementById('Patrol-boatShipStatus');
+        const playerPBSHits = document.getElementById('patrol-boatHits');
+
+
+        
     }
 }
 
