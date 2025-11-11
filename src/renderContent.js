@@ -165,7 +165,7 @@ class ContentRender {
                 const hits = gameState.playerHuman.gameBoard.ships[i].hits
                 switch (i) {
                         case 0:
-                            playerCarrierHits.innerText = hits;
+                            playerCarrierHits.innerText = `${hits}`;
                             break;
                         case 1:
                             playerBattleshipHits.innerText = hits;

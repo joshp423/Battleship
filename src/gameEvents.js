@@ -67,14 +67,15 @@ export class GameEvents {
                         }
                     }
                     //needs to be win check function
-                    renderContent.renderTurnFeedback(this.turn);
+                    renderContent.renderTurnFeedback(turnResult);
                     this.turn = "CPU";
-                    window.setTimeout(() => renderContent.renderGameTurns(this.turn, Game, turnResult), 5000);
-                    window.setTimeout(() => this.CPUgameTurn(), 5000);
-                    
-
-                    this.turn = "Player";
-                    window.setTimeout(() => renderContent.renderGameTurns(this.turn, Game, this.turn), 15000);
+                    window.setTimeout(() => {
+                        renderContent.renderGameTurns(this.turn, Game, turnResult);
+                        this.CPUgameTurn();
+                        // after CPU finishes, return turn to player
+                        this.turn = "Player";
+                        renderContent.renderGameTurns(this.turn, Game, turnResult);
+                    }, 2000);
                     
                 }
             })
