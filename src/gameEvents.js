@@ -12,7 +12,7 @@ export class GameEvents {
         this.turn = "Player";
     }
 
-    setUpEventListenersOpponentBoard(){
+    setUpEventListenersOpponentBoard(Game){
         const opponentGameBoardDivs = document.querySelectorAll('.opponentGameBoardDivs');
         for (let i = 0; i < opponentGameBoardDivs.length; i++) {
             let squareArray = opponentGameBoardDivs[i].id.split(",");
@@ -55,7 +55,7 @@ export class GameEvents {
                     else {
                         opponentGameBoardDivs[i].style.backgroundColor = "red";
                         this.playerCPU.gameBoard.receiveAttack(squareArray[0], squareArray[1]);
-                        turnResult = "Make";
+                        turnResult = "Hit";
                     }
                     if (!this.discoveredSquaresHuman) {
                         this.discoveredSquaresHuman = [];
@@ -66,48 +66,52 @@ export class GameEvents {
                             this.discoveredSquaresHuman.push(opponentGameBoardDivs[i].id.split(",").map(Number));
                         }
                     }
-                    this.turn === "CPU";
+                    //needs to be win check function
+                    renderContent.renderTurnFeedback(this.turn);
+                    this.turn = "CPU";
+                    window.setTimeout(() => renderContent.renderGameTurns(this.turn, Game, turnResult), 5000);
+                    window.setTimeout(() => this.CPUgameTurn(), 5000);
+                    
 
-                    renderContent.renderGameTurns(this.turn, this.GameEvents, turnResult)
+                    this.turn = "Player";
+                    window.setTimeout(() => renderContent.renderGameTurns(this.turn, Game, this.turn), 15000);
                     
                 }
             })
         }
     }
+
     CPUgameTurn() {
+        const self = this;
         const playerGameBoardDivs = document.querySelectorAll('.playerGameBoardDivs');
         let turnResult = null;
         let y = Math.floor(Math.random() * 10);
         let x = Math.floor(Math.random() * 10);
         const squareArray = [y, x];
-        const occupied = occupiedCheck(this.playerHuman.gameBoard.ships, squareArray, 1, "Horizontal");
-        this.discoveredSquaresCPU.forEach((square) => {
-            if (!square[0] === y && square[1] === x) {
+        const discovered = discoveredCheck(this.discoveredSquaresCPU, squareArray)
+        let binaryDone = 0;
+        
 
+        while(binaryDone < 1) {
+            if (!discovered){
+                const occupied = occupiedCheck(this.playerHuman.gameBoard.ships, squareArray, 1, "Horizontal");
+                this.discoveredSquaresCPU.push([y, x]);
+                for (let i = 0; i < playerGameBoardDivs.length; i++) {
+                    let divArray = playerGameBoardDivs[i].id.split(",").map(Number);
+                    if (divArray [0] === y && divArray[1] === x) {
+                        if (occupied) {
+                                playerGameBoardDivs[i].style.backgroundColor = "red";
+                                self.playerHuman.gameBoard.receiveAttack(y, x);
+                                turnResult = "Hit";
+                            }
+                        else {
+                            playerGameBoardDivs[i].style.backgroundColor = "blue";
+                            turnResult = "Miss";
+                        }
+                    }
+                }
+                binaryDone++;
             }
-        })
-        if (!occupied) {
-            opponentGameBoardDivs[i].style.backgroundColor = "blue";
-            turnResult = "Miss";
-            this.discoveredSquaresCPU.push([y, x])
         }
-        else {
-            opponentGameBoardDivs[i].style.backgroundColor = "red";
-            this.playerCPU.gameBoard.receiveAttack(squareArray[0], squareArray[1]);
-            turnResult = "Make";
-        }
-        if (!this.discoveredSquares) {
-            this.discoveredSquares = [];
-            this.discoveredSquares.push(opponentGameBoardDivs[i].id.split(",").map(Number));
-        }
-        else {
-            if (discovered === false) {
-                this.discoveredSquares.push(opponentGameBoardDivs[i].id.split(",").map(Number));
-            }
-        }
-        this.turn === "CPU";
-
-        renderContent.renderGameTurns(this.turn, this.GameEvents, turnResult)
-                    
     }
 }

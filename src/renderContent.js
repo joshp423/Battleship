@@ -113,11 +113,11 @@ class ContentRender {
             }
             k++;
         }
-        Game.setUpEventListenersOpponentBoard();
+        Game.setUpEventListenersOpponentBoard(Game);
     }
 
 
-    renderGameTurns(turn, gameBoard, turnResult){
+    renderGameTurns(turn, gameState, turnResult){
         const opponentBoardTable = document.getElementById('opponentBoardTable');
         const playerBoardTable = document.getElementById('playerBoardTable');
         const playerHeaderInstruction = document.querySelector("#playerHeader>h3")
@@ -142,7 +142,7 @@ class ContentRender {
         //check gameboardShips.player and gameboardShips.CPU for hits and sinks and reflect that in the appropriate div
         if (turn === "CPU") {
             for (let i = 0; i < 5; i++) {
-                if (gameBoard.playerHuman.gameBoard.ships[i].sunk === true) {
+                if (gameState.playerHuman.gameBoard.ships[i].sunk === true) {
                     switch (i) {
                         case 0:
                             playerCarrierStatus.innerText = "Sunk"
@@ -162,51 +162,66 @@ class ContentRender {
                         
                     }
                 }
-                const hits = gameBoard.playerHuman.gameBoard.ships[i].hits
+                const hits = gameState.playerHuman.gameBoard.ships[i].hits
                 switch (i) {
                         case 0:
-                            playerCarrierHits.innerText = hits
+                            playerCarrierHits.innerText = hits;
                             break;
                         case 1:
-                            playerBattleshipHits.innerText = hits
+                            playerBattleshipHits.innerText = hits;
                             break;
                         case 2:
-                            playerDestroyerHits.innerText = hits
+                            playerDestroyerHits.innerText = hits;
                             break;
                         case 3:
-                            playerSubmarineHits.innerText = hits
+                            playerSubmarineHits.innerText = hits;
                             break;
                         case 4:
-                            playerPBSHits.innerText = hits
+                            playerPBSHits.innerText = hits;
                             break;   
                 }   
             }
-            playerHeaderInstruction.innerText = "Enemy strike incoming!"
+            if (turnResult === "Hit") {
+                playerHeaderInstruction.innerText = "The enemy has hit one of our ships!";
+            }
+            else {
+                playerHeaderInstruction.innerText = "The enemy launched an attack but it missed!";
+            }
         }
         if (turn === "Player") {
             for (let i = 0; i < 5; i++) {
-                if (gameBoard.playerCPU.gameBoard.ships[i].sunk === true) {
+                if (gameState.playerCPU.gameBoard.ships[i].sunk === true) {
                     //change css
                     switch (i) {
                         case 0:
-                            playerCarrierStatus.innerText = "Sunk"
+                            opponentCarrierStatus.innerText = "Sunk";
                             break;
                         case 1:
-                            playerBattleshipStatus.innerText = "Sunk"
+                            opponentBattleshipStatus.innerText = "Sunk";
                             break;
                         case 2:
-                            playerDestroyerStatus.innerText = "Sunk"
+                            opponentDestroyerStatus.innerText = "Sunk";
                             break;
                         case 3:
-                            playerSubmarineStatus.innerText = "Sunk"
+                            opponentSubmarineStatus.innerText = "Sunk";
                             break;
                         case 4:
-                            playerPBStatus.innerText = "Sunk"
+                            opponentPBStatus.innerText = "Sunk";
                             break;
                     }
                 }
             }
-            playerHeaderInstruction.innerText = "Your Turn, click to launch a strike"
+            playerHeaderInstruction.innerText = "Your Turn, click to launch a strike";
+        }
+    }
+
+    renderTurnFeedback(turnResult) {
+        const playerHeaderInstruction = document.querySelector("#playerHeader>h3")
+        if (turnResult === "Hit") {
+            playerHeaderInstruction.innerText = "Your Attack was successful!";
+        }
+        else {
+            playerHeaderInstruction.innerText = "Your attack failed...";
         }
     }
 }
