@@ -38,9 +38,9 @@ export class Gameboard {
                             if (squareOccupied[0] === y && squareOccupied[1] === x) {
                                 ship.hit()
 
-                                //if ship sunk remove from gameboard array - might be better to use array method to remove.
+                                //if ship sunk turn red on board instead of deleting - WIP
                                 if (ship.sunk === true) {
-                                    ship = "";
+                                    
                                 }
                             }
                         }) 
@@ -85,7 +85,6 @@ export class Gameboard {
             let length;
             let directionDecider = Math.floor(Math.random() * 2);
             let direction;
-            let occupied;
             if (directionDecider === 0) {
                 direction = "Horizontal";
             }

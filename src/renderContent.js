@@ -92,15 +92,15 @@ class ContentRender {
         const playerBoardTable = document.getElementById("playerShipTable");
         playerBoardTable.style.display = "flex";
 
-        const playerHeader = document.getElementById("playerHeader")
-        const playerHeaderInstruction = document.querySelector("#playerHeader>h3")
+        const playerHeader = document.getElementById("playerHeader");
+        const playerHeaderInstruction = document.querySelector("#playerHeader>h3");
 
-        playerHeaderInstruction.innerText = "Battle Begins! Click on enemy grid to launch an attack"
+        playerHeaderInstruction.innerText = "Battle Begins! Click on enemy grid to launch an attack";
         const PlayerInstruction = document.getElementById('playerInstruction');
         PlayerInstruction.innerText = "";
 
         //create new opponent game board
-        const opponentGameBoard = document.getElementById('opponentGameBoard')
+        const opponentGameBoard = document.getElementById('opponentGameBoard');
         let k = 0;
         while (k < 10) {
             let l = 0;
@@ -117,10 +117,10 @@ class ContentRender {
     }
 
 
-    renderGameTurns(){
+    renderGameTurns(turn, gameBoard, turnResult){
         const opponentBoardTable = document.getElementById('opponentBoardTable');
         const playerBoardTable = document.getElementById('playerBoardTable');
-
+        const playerHeaderInstruction = document.querySelector("#playerHeader>h3")
 
         const opponentCarrierStatus = document.getElementById('opponentCarrierShipStatus');
         const opponentBattleshipStatus = document.getElementById('opponentBattleshipShipStatus');
@@ -139,8 +139,75 @@ class ContentRender {
         const playerPBStatus = document.getElementById('Patrol-boatShipStatus');
         const playerPBSHits = document.getElementById('patrol-boatHits');
 
-
-        
+        //check gameboardShips.player and gameboardShips.CPU for hits and sinks and reflect that in the appropriate div
+        if (turn === "CPU") {
+            for (let i = 0; i < 5; i++) {
+                if (gameBoard.playerHuman.gameBoard.ships[i].sunk === true) {
+                    switch (i) {
+                        case 0:
+                            playerCarrierStatus.innerText = "Sunk"
+                            break;
+                        case 1:
+                            playerBattleshipStatus.innerText = "Sunk"
+                            break;
+                        case 2:
+                            playerDestroyerStatus.innerText = "Sunk"
+                            break;
+                        case 3:
+                            playerSubmarineStatus.innerText = "Sunk"
+                            break;
+                        case 4:
+                            playerPBStatus.innerText = "Sunk"
+                            break;
+                        
+                    }
+                }
+                const hits = gameBoard.playerHuman.gameBoard.ships[i].hits
+                switch (i) {
+                        case 0:
+                            playerCarrierHits.innerText = hits
+                            break;
+                        case 1:
+                            playerBattleshipHits.innerText = hits
+                            break;
+                        case 2:
+                            playerDestroyerHits.innerText = hits
+                            break;
+                        case 3:
+                            playerSubmarineHits.innerText = hits
+                            break;
+                        case 4:
+                            playerPBSHits.innerText = hits
+                            break;   
+                }   
+            }
+            playerHeaderInstruction.innerText = "Enemy strike incoming!"
+        }
+        if (turn === "Player") {
+            for (let i = 0; i < 5; i++) {
+                if (gameBoard.playerCPU.gameBoard.ships[i].sunk === true) {
+                    //change css
+                    switch (i) {
+                        case 0:
+                            playerCarrierStatus.innerText = "Sunk"
+                            break;
+                        case 1:
+                            playerBattleshipStatus.innerText = "Sunk"
+                            break;
+                        case 2:
+                            playerDestroyerStatus.innerText = "Sunk"
+                            break;
+                        case 3:
+                            playerSubmarineStatus.innerText = "Sunk"
+                            break;
+                        case 4:
+                            playerPBStatus.innerText = "Sunk"
+                            break;
+                    }
+                }
+            }
+            playerHeaderInstruction.innerText = "Your Turn, click to launch a strike"
+        }
     }
 }
 

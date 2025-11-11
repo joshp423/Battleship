@@ -1,12 +1,14 @@
 import { occupiedCheck } from "./occupiedCheck";
 import { Player } from "./playerClass";
 import { discoveredCheck } from "./discoveredCheck";
+import { renderContent } from "./renderContent";
 
 export class GameEvents {
     constructor(playerHuman){
         this.playerHuman = playerHuman;
         this.playerCPU = new Player("CPU");
-        this.discoveredSquares = null;
+        this.discoveredSquaresHuman = null;
+        this.discoveredSquaresCPU = [];
         this.turn = "Player";
     }
 
@@ -18,8 +20,8 @@ export class GameEvents {
             let discovered = null;
             
             opponentGameBoardDivs[i].addEventListener('mouseenter', () => {
-                if (this.discoveredSquares) {
-                    discovered = discoveredCheck(this.discoveredSquares, squareArray)
+                if (this.discoveredSquaresHuman) {
+                    discovered = discoveredCheck(this.discoveredSquaresHuman, squareArray)
                 }
                 if (this.turn === "Player") {
                     //change border style?
@@ -29,8 +31,8 @@ export class GameEvents {
                 }
             })
             opponentGameBoardDivs[i].addEventListener('mouseout', () => {
-                if (this.discoveredSquares) {
-                    discovered = discoveredCheck(this.discoveredSquares, squareArray)
+                if (this.discoveredSquaresHuman) {
+                    discovered = discoveredCheck(this.discoveredSquaresHuman, squareArray)
                 }
                 if (this.turn === "Player") {
                     if (discovered === false || discovered === null) {
@@ -39,34 +41,73 @@ export class GameEvents {
                 }
             })
             opponentGameBoardDivs[i].addEventListener('click', () => {
-                if (this.discoveredSquares) {
-                    discovered = discoveredCheck(this.discoveredSquares, squareArray)
+                let turnResult = null;
+                if (this.discoveredSquaresHuman) {
+                    discovered = discoveredCheck(this.discoveredSquaresHuman, squareArray)
                 }
                 if (this.turn === "Player") {
                     
                     const occupied = occupiedCheck(this.playerCPU.gameBoard.ships, squareArray, 1, "Vertical");
                     if (!occupied) {
                         opponentGameBoardDivs[i].style.backgroundColor = "blue";
+                        turnResult = "Miss";
                     }
                     else {
-                        opponentGameBoardDivs[i].style.backgroundColor = "grey";
+                        opponentGameBoardDivs[i].style.backgroundColor = "red";
                         this.playerCPU.gameBoard.receiveAttack(squareArray[0], squareArray[1]);
+                        turnResult = "Make";
                     }
-                    if (!this.discoveredSquares) {
-                        this.discoveredSquares = [];
-                        this.discoveredSquares.push(opponentGameBoardDivs[i].id.split(",").map(Number));
+                    if (!this.discoveredSquaresHuman) {
+                        this.discoveredSquaresHuman = [];
+                        this.discoveredSquaresHuman.push(opponentGameBoardDivs[i].id.split(",").map(Number));
                     }
                     else {
                         if (discovered === false) {
-                            this.discoveredSquares.push(opponentGameBoardDivs[i].id.split(",").map(Number));
+                            this.discoveredSquaresHuman.push(opponentGameBoardDivs[i].id.split(",").map(Number));
                         }
                     }
                     this.turn === "CPU";
+
+                    renderContent.renderGameTurns(this.turn, this.GameEvents, turnResult)
+                    
                 }
             })
         }
     }
-    gameTurnsLogic() {
+    CPUgameTurn() {
+        const playerGameBoardDivs = document.querySelectorAll('.playerGameBoardDivs');
+        let turnResult = null;
+        let y = Math.floor(Math.random() * 10);
+        let x = Math.floor(Math.random() * 10);
+        const squareArray = [y, x];
+        const occupied = occupiedCheck(this.playerHuman.gameBoard.ships, squareArray, 1, "Horizontal");
+        this.discoveredSquaresCPU.forEach((square) => {
+            if (!square[0] === y && square[1] === x) {
 
+            }
+        })
+        if (!occupied) {
+            opponentGameBoardDivs[i].style.backgroundColor = "blue";
+            turnResult = "Miss";
+            this.discoveredSquaresCPU.push([y, x])
+        }
+        else {
+            opponentGameBoardDivs[i].style.backgroundColor = "red";
+            this.playerCPU.gameBoard.receiveAttack(squareArray[0], squareArray[1]);
+            turnResult = "Make";
+        }
+        if (!this.discoveredSquares) {
+            this.discoveredSquares = [];
+            this.discoveredSquares.push(opponentGameBoardDivs[i].id.split(",").map(Number));
+        }
+        else {
+            if (discovered === false) {
+                this.discoveredSquares.push(opponentGameBoardDivs[i].id.split(",").map(Number));
+            }
+        }
+        this.turn === "CPU";
+
+        renderContent.renderGameTurns(this.turn, this.GameEvents, turnResult)
+                    
     }
 }
