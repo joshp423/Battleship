@@ -15,7 +15,7 @@ export class GameEvents {
         for (let i = 0; i < opponentGameBoardDivs.length; i++) {
             let squareArray = opponentGameBoardDivs[i].id.split(",");
             squareArray = squareArray.map(Number);
-            let discovered;
+            let discovered = null;
             
             opponentGameBoardDivs[i].addEventListener('mouseenter', () => {
                 if (this.discoveredSquares) {
@@ -23,7 +23,7 @@ export class GameEvents {
                 }
                 if (this.turn === "Player") {
                     //change border style?
-                    if (discovered === false) {
+                    if (discovered === false || discovered === null) {
                         opponentGameBoardDivs[i].style.backgroundColor = "orange";
                     }
                 }
@@ -33,7 +33,7 @@ export class GameEvents {
                     discovered = discoveredCheck(this.discoveredSquares, squareArray)
                 }
                 if (this.turn === "Player") {
-                    if (discovered === false) {
+                    if (discovered === false || discovered === null) {
                         opponentGameBoardDivs[i].style.backgroundColor = "white";
                     }
                 }

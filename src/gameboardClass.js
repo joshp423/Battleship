@@ -77,7 +77,7 @@ export class Gameboard {
     };
 
     createFleetRandom(gameBoardShips) {
-
+        const self = this;
         let counter = 0;
         while (counter < 5) {
             let y = Math.floor(Math.random() * 10);
@@ -94,32 +94,20 @@ export class Gameboard {
             }
             if (counter === 0 ) {
                 length = 5;
-                this.placeShip(length, direction, [y, x]);
-                counter++;
+                placeShipRandom(length, direction, y, x);
             }
             else if (counter === 1) {
                 length = 4;
-                occupied = existingCheck(gameBoardShips, direction, length, y, x);
-                if (occupied === false) {
-                    this.placeShip(length, direction, [y, x]);
-                    counter++;
-                }
+                placeShipRandom(length, direction, y, x);
+                
             }
             else if (counter === 2 || counter === 3) {
                 length = 3;
-                occupied = existingCheck(gameBoardShips, direction, length, y, x);
-                if (occupied === false) {
-                    this.placeShip(length, direction, [y, x]);
-                    counter++;
-                }
+                placeShipRandom(length, direction, y, x);
             }
             else if (counter === 4) {
                 length = 2;
-                occupied = existingCheck(gameBoardShips, direction, length, y, x);
-                if (occupied === false) {
-                    this.placeShip(length, direction, [y, x]);
-                    counter++;
-                }
+                placeShipRandom(length, direction, y, x);
             }
         }
         function existingCheck(gameBoardShips, shipDirection, length, y, x) {
@@ -145,6 +133,26 @@ export class Gameboard {
                 }
             }
             return false;
+        }
+        function placeShipRandom(length, direction, y, x) {
+            if (direction === "Horizontal") {
+                    if (x + length < 10) {
+                        const occupied = existingCheck(gameBoardShips, direction, length, y, x);
+                        if (occupied === false) {
+                            self.placeShip(length, direction, [y, x]);
+                            counter++;
+                        }
+                    }
+                }
+            else {
+                if (y + length < 10) {
+                    const occupied = existingCheck(gameBoardShips, direction, length, y, x);
+                    if (occupied === false) {
+                        self.placeShip(length, direction, [y, x]);
+                        counter++;
+                    }
+                }
+            }
         }
     }
 
