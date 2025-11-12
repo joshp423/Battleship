@@ -47,7 +47,7 @@ class ContentRender {
             squareArray = squareArray.map(Number);
             const occupied = occupiedCheckSingular(shipsArray, squareArray)
             if (occupied){ 
-                playerGameBoardDivs[i].style.backgroundColor = "grey";
+                playerGameBoardDivs[i].style.backgroundColor = "#33415c";
             }
         }
     }
@@ -81,7 +81,7 @@ class ContentRender {
             squareArray = squareArray.map(Number);
             const occupied = occupiedCheckSingular(shipsArray, squareArray)
             if (occupied){ 
-                playerGameBoardDivs[i].style.backgroundColor = "grey";
+                playerGameBoardDivs[i].style.backgroundColor = "#33415c";
             }
         }
 
@@ -127,6 +127,17 @@ class ContentRender {
         const opponentDestroyerStatus = document.getElementById('opponentDestroyerShipStatus');
         const opponentSubmarineStatus = document.getElementById('opponentSubmarineShipStatus');
         const opponentPBStatus = document.getElementById('opponentPatrol-boatShipStatus');
+        const opponentCarrierName = document.getElementById('opponentCarrierShipName');
+        const opponentBattleshipName = document.getElementById('opponentBattleshipShipName');
+        const opponentDestroyerName = document.getElementById('opponentDestroyerShipName');
+        const opponentSubmarineName = document.getElementById('opponentSubmarineShipName');
+        const opponentPBName = document.getElementById('opponentPatrol-boatShipName');
+
+        const playerCarrierName = document.getElementById('carrierShipName');
+        const playerBattleshipName = document.getElementById('battleshipShipName');
+        const playerDestroyerName = document.getElementById('destroyerShipName');
+        const playerSubmarineName = document.getElementById('submarineShipName');
+        const playerPBName = document.getElementById('patrol-boatShipName');
 
         const playerCarrierStatus = document.getElementById('carrierShipStatus');
         const playerCarrierHits = document.getElementById('carrierHits');
@@ -146,18 +157,28 @@ class ContentRender {
                     console.log(gameState.playerHuman.gameBoard.ships[i].sunk)
                     switch (i) {
                         case 0:
+                            playerCarrierName.style.textDecoration = "line-through";
+                            playerCarrierName.style.backgroundColor = "red";
                             playerCarrierStatus.innerText = "Sunk"
                             break;
                         case 1:
+                            playerBattleshipName.style.textDecoration = "line-through";
+                            playerBattleshipName.style.backgroundColor = "red";
                             playerBattleshipStatus.innerText = "Sunk"
                             break;
                         case 2:
+                            playerDestroyerName.style.textDecoration = "line-through";
+                            playerDestroyerName.style.backgroundColor = "red";
                             playerDestroyerStatus.innerText = "Sunk"
                             break;
                         case 3:
+                            playerSubmarineName.style.textDecoration = "line-through";
+                            playerSubmarineName.style.backgroundColor = "red";
                             playerSubmarineStatus.innerText = "Sunk"
                             break;
                         case 4:
+                            playerPBName.style.textDecoration = "line-through";
+                            playerPBName.style.backgroundColor = "red";
                             playerPBStatus.innerText = "Sunk"
                             break;
                         
@@ -189,19 +210,34 @@ class ContentRender {
                     //change css
                     switch (i) {
                         case 0:
+                            opponentCarrierName.style.textDecoration = "line-through";
+                            opponentCarrierName.style.backgroundColor = "red";
                             opponentCarrierStatus.innerText = "Sunk";
+                            opponentCarrierStatus.style.backgroundColor = "red";
                             break;
                         case 1:
+                            opponentBattleshipName.style.textDecoration = "line-through";
+                            opponentBattleshipName.style.backgroundColor = "red";
                             opponentBattleshipStatus.innerText = "Sunk";
+                            opponentBattleshipStatus.style.backgroundColor = "red";
                             break;
                         case 2:
+                            opponentDestroyerName.style.textDecoration = "line-through";
+                            opponentDestroyerName.style.backgroundColor = "red";
                             opponentDestroyerStatus.innerText = "Sunk";
+                            opponentDestroyerStatus.style.backgroundColor = "red";
                             break;
                         case 3:
+                            opponentSubmarineName.style.textDecoration = "line-through";
+                            opponentSubmarineName.style.backgroundColor = "red";
                             opponentSubmarineStatus.innerText = "Sunk";
+                            opponentSubmarineStatus.style.backgroundColor = "red";
                             break;
                         case 4:
+                            opponentPBName.style.textDecoration = "line-through";
+                            opponentPBName.style.backgroundColor = "red";
                             opponentPBStatus.innerText = "Sunk";
+                            opponentPBStatus.style.backgroundColor = "red";
                             break;
                     }
                 }

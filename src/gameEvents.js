@@ -49,7 +49,7 @@ export class GameEvents {
                     
                     const occupied = occupiedCheckSingular(this.playerCPU.gameBoard.ships, squareArray);
                     if (!occupied) {
-                        opponentGameBoardDivs[i].style.backgroundColor = "blue";
+                        opponentGameBoardDivs[i].style.backgroundColor = "#0353a4";
                         turnResult = "Miss";
                     }
                     else {
@@ -124,7 +124,7 @@ export class GameEvents {
                                 binaryDone++;
                             }
                         else {
-                            playerGameBoardDivs[i].style.backgroundColor = "blue";
+                            playerGameBoardDivs[i].style.backgroundColor = "#0353a4";
                             turnResult = "Miss";
                             binaryDone++;
                         }

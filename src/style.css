@@ -1,5 +1,8 @@
 body {
     margin: 0;
+    background-color: #0466c8;
+    font-family: 'Nimbus Mono PS', 'Courier New', monospace;
+    font-weight: normal;
 }
 
 .header {
@@ -9,12 +12,14 @@ body {
     justify-content: center;
     align-items: center;
     gap: 50px;
+    background-color: #0353a4
 }
 
 #opponentContainer {
     display: none;
     flex-direction: column;
     justify-content: center;
+    background-color: #0466c8;
 }
 
 #opponentHeader {
@@ -40,7 +45,7 @@ body {
 #opponentGameBoard {
     display: grid;
     grid-template: repeat(10, 1fr) / repeat(10, 1fr);
-    margin: 30px;
+    margin: 50px;
     height: 250px;
     width: 250px;
     gap: 0;
@@ -49,12 +54,14 @@ body {
 #opponentShipTable {
     border: 2px solid black;
     margin-top: 50px;
+    background-color: white;
 }
 
 #playerContainer {
     display: none;
     flex-direction: column;
     justify-content: center;
+    background-color: #0466c8;
 }
 
 #playerHeader {
@@ -90,6 +97,7 @@ body {
     display: none;
     border: 2px solid black;
     margin-top: 50px;
+    background-color: white;
 }
 
 #playerShipPlacement {

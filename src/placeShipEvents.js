@@ -32,7 +32,7 @@ export class ShipEvents {
                             squareArray = squareArray.map(Number);
                             const occupied = occupiedCheckSingular(this.player.gameBoard.ships, squareArray)
                             if (occupied){ 
-                                playerGameBoardDivs[i].style.backgroundColor = "grey";
+                                playerGameBoardDivs[i].style.backgroundColor = "#33415c";
                             }
                         }
                     }
@@ -54,7 +54,7 @@ export class ShipEvents {
                             squareArray = squareArray.map(Number);
                             const occupied = occupiedCheckSingular(this.player.gameBoard.ships, squareArray)
                             if (occupied){ 
-                                playerGameBoardDivs[i].style.backgroundColor = "grey";
+                                playerGameBoardDivs[i].style.backgroundColor = "#33415c";
                             }
                         }
                     }   
