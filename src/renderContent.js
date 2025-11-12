@@ -59,7 +59,7 @@ class ContentRender {
         playerGameBoard.innerHTML = "";
 
         //add new gameBoard and colour occupied cells
-        let i = 0; 
+        let i = 0;
         while (i < 10) {
             let j = 0;
             while (j < 10) {
@@ -143,6 +143,7 @@ class ContentRender {
         if (turn === "CPU") {
             for (let i = 0; i < 5; i++) {
                 if (gameState.playerHuman.gameBoard.ships[i].sunk === true) {
+                    console.log(gameState.playerHuman.gameBoard.ships[i].sunk)
                     switch (i) {
                         case 0:
                             playerCarrierStatus.innerText = "Sunk"
@@ -162,10 +163,10 @@ class ContentRender {
                         
                     }
                 }
-                const hits = gameState.playerHuman.gameBoard.ships[i].hits
+                const hits = gameState.playerHuman.gameBoard.ships[i].hits;
                 switch (i) {
                         case 0:
-                            playerCarrierHits.innerText = `${hits}`;
+                            playerCarrierHits.innerText = hits;
                             break;
                         case 1:
                             playerBattleshipHits.innerText = hits;
@@ -222,6 +223,15 @@ class ContentRender {
         }
         else {
             playerHeaderInstruction.innerText = "Your attack failed...";
+        }
+    }
+    renderWin(player) {
+        const opponentContainer = document.getElementById('opponentContainer');
+        const playerContainer = document.getElementById('playerContainer')
+        opponentContainer.innerText = "";
+        playerContainer.innerText = "";
+        if (player === "CPU") {
+            
         }
     }
 }

@@ -67,16 +67,26 @@ export class GameEvents {
                         }
                     }
                     //needs to be win check function
+                    let playerWin = this.checkWinCondition(this.playerCPU.gameBoard.ships);
+                    let cpuWin = this.checkWinCondition(this.playerHuman.gameBoard.ships);
+                    if (playerWin === true){
+
+                    }
+                    if (cpuWin === true) {
+                        
+                    }
                     renderContent.renderTurnFeedback(turnResult);
                     this.turn = "CPU";
                     window.setTimeout(() => {
-                        renderContent.renderGameTurns(this.turn, Game, turnResult);
                         this.CPUgameTurn();
-                        // after CPU finishes, return turn to player
+                        renderContent.renderGameTurns(this.turn, Game, turnResult);
+                        
+                        
                         this.turn = "Player";
                         renderContent.renderGameTurns(this.turn, Game, turnResult);
                     }, 2000);
-                    
+
+
                 }
             })
         }
@@ -88,8 +98,8 @@ export class GameEvents {
         let turnResult = null;
         let y = Math.floor(Math.random() * 10);
         let x = Math.floor(Math.random() * 10);
-        const squareArray = [y, x];
-        const discovered = discoveredCheck(this.discoveredSquaresCPU, squareArray)
+        let squareArray = [y, x];
+        let discovered = discoveredCheck(this.discoveredSquaresCPU, squareArray);
         let binaryDone = 0;
         
 
@@ -104,15 +114,31 @@ export class GameEvents {
                                 playerGameBoardDivs[i].style.backgroundColor = "red";
                                 self.playerHuman.gameBoard.receiveAttack(y, x);
                                 turnResult = "Hit";
+                                binaryDone++;
                             }
                         else {
                             playerGameBoardDivs[i].style.backgroundColor = "blue";
                             turnResult = "Miss";
+                            binaryDone++;
                         }
                     }
                 }
-                binaryDone++;
+            }
+            else {
+                y = Math.floor(Math.random() * 10);
+                x = Math.floor(Math.random() * 10);
+                squareArray = [y, x];
+                discovered = discoveredCheck(this.discoveredSquaresCPU, squareArray);
             }
         }
+    }
+
+    checkWinCondition(entityShips) {
+        for (let i = 0; i < 5; i++) {
+                if (entityShips[i].sunk === false) {
+                    return false;
+                }
+        }
+        return true;    
     }
 }
