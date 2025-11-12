@@ -14,7 +14,6 @@ startResetButton.addEventListener('click', () => {
     console.log(gameStatus)
     if (gameStatus === "notStarted") {
         gameStatus = "started";
-        console.log(gameStatus)
         startResetButton.innerText = "Reset Game";
         renderContent.renderPlaceCarrier();
     }

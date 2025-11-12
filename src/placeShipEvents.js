@@ -60,16 +60,11 @@ export class ShipEvents {
                     }   
                 }
             }
-            console.log(this.shipDirection)
-
         });
     }
 
     placeShipEvents() {
-        console.log(this.activeShip)
-       
-        console.log(this.player.gameBoard.ships)
-        
+               
         const playerGameBoardDivs = document.querySelectorAll('.playerGameBoardDivs')
         for (let i = 0; i < playerGameBoardDivs.length; i++) {
             
@@ -276,10 +271,8 @@ export class ShipEvents {
                                 if (playerGameBoardDivs[i + 40]){
                                     let squareArray = playerGameBoardDivs[i].id.split(",");
                                     squareArray = squareArray.map(Number);
-                                    console.log(squareArray);
 
                                     this.player.gameBoard.placeShip(5, this.shipDirection, squareArray)
-                                    console.log(this.player.gameBoard.ships);
 
                                     //update class to hold info
                                     this.activeShip = "Battleship"
@@ -327,7 +320,6 @@ export class ShipEvents {
                                     this.player.gameBoard.placeShip(2, this.shipDirection, squareArray)
                                     const Game = new GameEvents(this.player);
                                     Game.playerCPU.gameBoard.createFleetRandom(Game.playerCPU.gameBoard.ships);
-                                    console.log(Game.playerCPU.gameBoard.ships);
                                     renderContent.renderStartGame(this.player.gameBoard.ships, Game);
                                 }
                                 break;
@@ -340,10 +332,8 @@ export class ShipEvents {
                                 if (playerGameBoardDivs[i + 4] && i + 4 <= rowEnd){
                                     let squareArray = playerGameBoardDivs[i].id.split(",");
                                     squareArray = squareArray.map(Number);
-                                    console.log(squareArray);
 
                                     this.player.gameBoard.placeShip(5, this.shipDirection, squareArray)
-                                    console.log(this.player.gameBoard.ships);
 
                                     //update class to hold info
                                     this.activeShip = "Battleship"
@@ -391,7 +381,6 @@ export class ShipEvents {
                                     this.player.gameBoard.placeShip(2, this.shipDirection, squareArray)
                                     const Game = new GameEvents(this.player);
                                     Game.playerCPU.gameBoard.createFleetRandom(Game.playerCPU.gameBoard.ships);
-                                    console.log(Game.playerCPU.gameBoard.ships);
                                     renderContent.renderStartGame(this.player.gameBoard.ships, Game);  
                                 }
                                 break;
