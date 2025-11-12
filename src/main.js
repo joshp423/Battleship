@@ -11,7 +11,6 @@ let gameStatus = "notStarted";
 export const placeShip = new ShipEvents();
 const startResetButton = document.getElementById('startReset');
 startResetButton.addEventListener('click', () => {
-    console.log(gameStatus)
     if (gameStatus === "notStarted") {
         gameStatus = "started";
         startResetButton.innerText = "Reset Game";
