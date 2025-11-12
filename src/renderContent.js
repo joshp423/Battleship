@@ -128,15 +128,15 @@ class ContentRender {
         const opponentSubmarineStatus = document.getElementById('opponentSubmarineShipStatus');
         const opponentPBStatus = document.getElementById('opponentPatrol-boatShipStatus');
 
-        const playerCarrierStatus = document.getElementById('CarrierShipStatus');
+        const playerCarrierStatus = document.getElementById('carrierShipStatus');
         const playerCarrierHits = document.getElementById('carrierHits');
-        const playerBattleshipStatus = document.getElementById('BattleshipShipStatus');
+        const playerBattleshipStatus = document.getElementById('battleshipShipStatus');
         const playerBattleshipHits = document.getElementById('battleshipHits');
-        const playerDestroyerStatus = document.getElementById('DestroyerShipStatus');
+        const playerDestroyerStatus = document.getElementById('destroyerShipStatus');
         const playerDestroyerHits = document.getElementById('destroyerHits');
-        const playerSubmarineStatus = document.getElementById('SubmarineShipStatus');
+        const playerSubmarineStatus = document.getElementById('submarineShipStatus');
         const playerSubmarineHits = document.getElementById('submarineHits');
-        const playerPBStatus = document.getElementById('Patrol-boatShipStatus');
+        const playerPBStatus = document.getElementById('patrol-boatShipStatus');
         const playerPBSHits = document.getElementById('patrol-boatHits');
 
         //check gameboardShips.player and gameboardShips.CPU for hits and sinks and reflect that in the appropriate div
@@ -182,12 +182,6 @@ class ContentRender {
                             break;   
                 }   
             }
-            if (turnResult === "Hit") {
-                playerHeaderInstruction.innerText = "The enemy has hit one of our ships!";
-            }
-            else {
-                playerHeaderInstruction.innerText = "The enemy launched an attack but it missed!";
-            }
         }
         if (turn === "Player") {
             for (let i = 0; i < 5; i++) {
@@ -219,10 +213,10 @@ class ContentRender {
     renderTurnFeedback(turnResult) {
         const playerHeaderInstruction = document.querySelector("#playerHeader>h3")
         if (turnResult === "Hit") {
-            playerHeaderInstruction.innerText = "Your Attack was successful!";
+            playerHeaderInstruction.innerText = "Your Attack was successful! Enemy attack inbound!";
         }
         else {
-            playerHeaderInstruction.innerText = "Your attack missed...";
+            playerHeaderInstruction.innerText = "Your attack missed... Enemy attack inbound!";
         }
     }
     renderWin(player) {
@@ -231,7 +225,14 @@ class ContentRender {
         opponentContainer.innerText = "";
         playerContainer.innerText = "";
         if (player === "CPU") {
-            
+            const CPUVictory = document.createElement('h1')
+            CPUVictory.innerText = "Your fleet was destroyed.. YOU LOSE";
+            opponentContainer.append(CPUVictory)
+        }
+        else {
+            const playerVictory = document.createElement('h1')
+            playerVictory.innerText = "You obliterated the enemy fleet... YOU WIN";
+            opponentContainer.append(playerVictory)
         }
     }
 }

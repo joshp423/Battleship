@@ -70,24 +70,30 @@ export class GameEvents {
                     //needs to be win check function
                     let playerWin = this.checkWinCondition(this.playerCPU.gameBoard.ships);
                     let cpuWin = this.checkWinCondition(this.playerHuman.gameBoard.ships);
-                    if (playerWin === true){
+                    if (playerWin === true || cpuWin === true) {
+                        if (playerWin === true){
+                            renderContent.renderWin("player");
+                            return;
+                        }
+                        else if (cpuWin === true) {
+                            renderContent.renderWin("CPU");
+                            return;
+                        }
+                    }
+                    else {
+                    
+                        renderContent.renderTurnFeedback(turnResult);
+                        this.turn = "CPU";
+                        window.setTimeout(() => {
+
+                            this.CPUgameTurn();
+                            renderContent.renderGameTurns(this.turn, Game, turnResult);
+                            this.turn = "Player";
+                            renderContent.renderGameTurns(this.turn, Game, turnResult);
+
+                        }, 2000);
 
                     }
-                    if (cpuWin === true) {
-                        
-                    }
-                    renderContent.renderTurnFeedback(turnResult);
-                    this.turn = "CPU";
-                    window.setTimeout(() => {
-                        this.CPUgameTurn();
-                        renderContent.renderGameTurns(this.turn, Game, turnResult);
-                        
-                        
-                        this.turn = "Player";
-                        renderContent.renderGameTurns(this.turn, Game, turnResult);
-                    }, 2000);
-
-                    console.log(this.playerCPU.gameBoard.ships)
                 }
             })
         }
