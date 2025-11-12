@@ -1,5 +1,5 @@
 export class GridSquare {
-    constructor (x, y){
+    constructor (y, x){
         this.occupied = false;
         this.hit = false;
         this.x = x;

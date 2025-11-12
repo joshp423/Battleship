@@ -1,6 +1,6 @@
 import { Player } from "./playerClass";
 import { renderContent } from "./renderContent";
-import { occupiedCheck } from "./occupiedCheck";
+import { occupiedCheck, occupiedCheckSingular } from "./occupiedCheck";
 import { GameEvents } from "./gameEvents";
 
 export class ShipEvents {
@@ -30,7 +30,7 @@ export class ShipEvents {
                             playerGameBoardDivs[i].style.backgroundColor = "white";
                             let squareArray = playerGameBoardDivs[i].id.split(",");
                             squareArray = squareArray.map(Number);
-                            const occupied = occupiedCheck(this.player.gameBoard.ships, squareArray, 1, this.shipDirection)
+                            const occupied = occupiedCheckSingular(this.player.gameBoard.ships, squareArray)
                             if (occupied){ 
                                 playerGameBoardDivs[i].style.backgroundColor = "grey";
                             }
@@ -52,7 +52,7 @@ export class ShipEvents {
                             playerGameBoardDivs[i].style.backgroundColor = "white";
                             let squareArray = playerGameBoardDivs[i].id.split(",");
                             squareArray = squareArray.map(Number);
-                            const occupied = occupiedCheck(this.player.gameBoard.ships, squareArray, 1, this.shipDirection)
+                            const occupied = occupiedCheckSingular(this.player.gameBoard.ships, squareArray)
                             if (occupied){ 
                                 playerGameBoardDivs[i].style.backgroundColor = "grey";
                             }
@@ -325,11 +325,10 @@ export class ShipEvents {
                                     let squareArray = playerGameBoardDivs[i].id.split(",");
                                     squareArray = squareArray.map(Number);
                                     this.player.gameBoard.placeShip(2, this.shipDirection, squareArray)
-                                    renderContent.renderStartGame(this.player.gameBoard.ships)
                                     const Game = new GameEvents(this.player);
                                     Game.playerCPU.gameBoard.createFleetRandom(Game.playerCPU.gameBoard.ships);
                                     console.log(Game.playerCPU.gameBoard.ships);
-                                    renderContent.renderStartGame(this.player.gameBoard.ships, Game)
+                                    renderContent.renderStartGame(this.player.gameBoard.ships, Game);
                                 }
                                 break;
                         }

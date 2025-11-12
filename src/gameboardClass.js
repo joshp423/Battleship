@@ -3,18 +3,18 @@ import { occupiedCheck } from "./occupiedCheck";
 import { occupiedGrid, Ship } from "./shipClass";
 
 function createGrid(){
-            let gridArray = [];
-            let y = 0;
-            while (y < 10) {
-                let x = 0;
-                while (x < 10) {
-                    gridArray.push(new GridSquare(x, y))
-                    x++
-                }
-                y++;
-            }
-            return gridArray;
-        }     
+    let gridArray = [];
+    let y = 0;
+    while (y < 10) {
+        let x = 0;
+        while (x < 10) {
+            gridArray.push(new GridSquare(y, x))
+            x++
+        }
+        y++;
+    }
+    return gridArray;
+}     
 export class Gameboard {
     constructor() {
         //grid of objects - occupied, hit, x, y
@@ -58,7 +58,7 @@ export class Gameboard {
         let gridPosition;
         if (direction === "Vertical") {
             for (let y = coords[0]; y < length + coords[0]; y++) {
-                if (y + length >= 10) {
+                if (y + length > 10) {
                     return "Ship out of bounds, ships will always face downwards when set vertically.";
                 }
                 gridPosition = this.grid.findIndex(cell => cell.x === coords[1] && cell.y === y)
@@ -67,7 +67,7 @@ export class Gameboard {
         }
         else if (direction === "Horizontal") {
             for (let x = coords[1]; x < length + coords[1]; x++) {
-                if (x + length >= 10) {
+                if (x + length > 10) {
                     return "Ship out of bounds, ships will always face right when set horizontally.";
                 }
                 gridPosition = this.grid.findIndex(cell => cell.x === x && cell.y === coords[0])

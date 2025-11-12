@@ -24,3 +24,14 @@ export function occupiedCheck(gameBoardShips, squareArray, length, shipDirection
     }
     return false;
 }
+
+export function occupiedCheckSingular(gameBoardShips, squareArray) {
+    for (const ship of gameBoardShips) {
+        for (const grid of ship.occupiedGrid) {
+            if (grid[0] === squareArray[0] && grid[1] === squareArray[1]) {
+                return true;
+            }
+        }
+    }
+    return false;
+}

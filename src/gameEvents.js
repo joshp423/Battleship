@@ -1,4 +1,4 @@
-import { occupiedCheck } from "./occupiedCheck";
+import { occupiedCheckSingular } from "./occupiedCheck";
 import { Player } from "./playerClass";
 import { discoveredCheck } from "./discoveredCheck";
 import { renderContent } from "./renderContent";
@@ -47,7 +47,7 @@ export class GameEvents {
                 }
                 if (this.turn === "Player") {
                     
-                    const occupied = occupiedCheck(this.playerCPU.gameBoard.ships, squareArray, 1, "Vertical");
+                    const occupied = occupiedCheckSingular(this.playerCPU.gameBoard.ships, squareArray);
                     if (!occupied) {
                         opponentGameBoardDivs[i].style.backgroundColor = "blue";
                         turnResult = "Miss";
@@ -66,6 +66,7 @@ export class GameEvents {
                             this.discoveredSquaresHuman.push(opponentGameBoardDivs[i].id.split(",").map(Number));
                         }
                     }
+                    
                     //needs to be win check function
                     let playerWin = this.checkWinCondition(this.playerCPU.gameBoard.ships);
                     let cpuWin = this.checkWinCondition(this.playerHuman.gameBoard.ships);
@@ -86,7 +87,7 @@ export class GameEvents {
                         renderContent.renderGameTurns(this.turn, Game, turnResult);
                     }, 2000);
 
-
+                    console.log(this.playerCPU.gameBoard.ships)
                 }
             })
         }
@@ -105,7 +106,7 @@ export class GameEvents {
 
         while(binaryDone < 1) {
             if (!discovered){
-                const occupied = occupiedCheck(this.playerHuman.gameBoard.ships, squareArray, 1, "Horizontal");
+                const occupied = occupiedCheckSingular(this.playerHuman.gameBoard.ships, squareArray);
                 this.discoveredSquaresCPU.push([y, x]);
                 for (let i = 0; i < playerGameBoardDivs.length; i++) {
                     let divArray = playerGameBoardDivs[i].id.split(",").map(Number);
